@@ -1,53 +1,91 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class StartingScreen extends StatelessWidget{
+class StartingScreen extends StatelessWidget {
   const StartingScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/Background3.png"),
-          fit: BoxFit.fill,
-        ),
-      ),
-    ),
-      Column(
+    return Scaffold(
+      body: Stack(
         children: [
-          Image(
-            image: AssetImage("assets/Logo.png"),
-            fit: BoxFit.cover,
-          ),
-          SizedBox(
-            height: 90.0,
-          ),
-          ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF86C9E7)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                    )
-                )
-            ),
-            onPressed: ()=>Navigator.pushNamed(context, '/main'),
-
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-              child:Text(
-                "Continue as Guest",
-                style: TextStyle(
-
-                    fontSize: 12.0
-                ),
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/Background3.png"),
+                fit: BoxFit.fill,
               ),
             ),
-
           ),
+          Column(
+            children: [
+              const Image(
+                image: AssetImage("assets/Logo.png"),
+                fit: BoxFit.cover,
+              ),
+              const SizedBox(
+                height: 70,
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/main'),
+                child: Container(
+                    width: 207,
+                    height: 39,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
+                    ),
+                    child: Center(
+                      child: Text('Continue as guest',
+                          style: GoogleFonts.inter(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700)),
+                    )),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/signin'),
+                child: Container(
+                    width: 207,
+                    height: 39,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
+                    ),
+                    child: Center(
+                      child: Text('Sign In',
+                          style: GoogleFonts.inter(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700)),
+                    )),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/registration'),
+                child: Container(
+                    width: 207,
+                    height: 39,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
+                    ),
+                    child: Center(
+                      child: Text('Create an account',
+                          style: GoogleFonts.inter(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700)),
+                    )),
+              ),
+            ],
+          )
         ],
-      )
-      ],
+      ),
     );
   }
-
 }
