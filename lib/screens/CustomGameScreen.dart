@@ -1,20 +1,25 @@
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class CustomGame extends StatefulWidget {
-  const CustomGame({Key? key}) : super(key: key);
+class CustomGame extends HookWidget {
 
-  @override
-  State<CustomGame> createState() => _CustomGameState();
-}
+  late List<ValueNotifier> selectedDifficultyStateList;
 
-class _CustomGameState extends State<CustomGame> {
+  int selectedDifficultyIndex = -1;
+
+  CustomGame({Key? key}) : super(key: key);
+
+
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size size = mediaQueryData.size;
     var bottomPadding = mediaQueryData.padding.bottom;
+
+    selectedDifficultyStateList = List.generate(3, (index) => useState(const Color.fromRGBO(248, 239, 239, 1)));
 
     return Scaffold(
       body: Container(
@@ -45,7 +50,7 @@ class _CustomGameState extends State<CustomGame> {
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 fontStyle: FontStyle.italic,
-                              )), 
+                              )),
                         ],
                       )),
                 ),
@@ -82,7 +87,7 @@ class _CustomGameState extends State<CustomGame> {
                               child: Text("Difficulty",
                                   style: GoogleFonts.inter(
                                     color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
+                                    const Color.fromRGBO(255, 255, 255, 1),
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
                                   )),
@@ -95,8 +100,7 @@ class _CustomGameState extends State<CustomGame> {
                                   height: 34,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: const Color.fromRGBO(
-                                          248, 239, 239, 1)),
+                                      color: selectedDifficultyStateList[0].value),
                                   child: Center(
                                     child: Text('Easy',
                                         style: GoogleFonts.inter(
@@ -114,8 +118,7 @@ class _CustomGameState extends State<CustomGame> {
                                   height: 34,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: const Color.fromRGBO(
-                                          248, 239, 239, 1)),
+                                      color: selectedDifficultyStateList[1].value),
                                   child: Center(
                                     child: Text('Medium',
                                         style: GoogleFonts.inter(
@@ -133,8 +136,7 @@ class _CustomGameState extends State<CustomGame> {
                                   height: 34,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: const Color.fromRGBO(
-                                          248, 239, 239, 1)),
+                                      color: selectedDifficultyStateList[2].value),
                                   child: Center(
                                     child: Text('Hard',
                                         style: GoogleFonts.inter(
@@ -150,7 +152,7 @@ class _CustomGameState extends State<CustomGame> {
                               child: Text("Number of Questions",
                                   style: GoogleFonts.inter(
                                     color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
+                                    const Color.fromRGBO(255, 255, 255, 1),
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
                                   )),
@@ -199,7 +201,7 @@ class _CustomGameState extends State<CustomGame> {
                               child: Text("Timer",
                                   style: GoogleFonts.inter(
                                     color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
+                                    const Color.fromRGBO(255, 255, 255, 1),
                                     fontSize: 20,
                                     fontWeight: FontWeight.w700,
                                   )),
@@ -216,7 +218,7 @@ class _CustomGameState extends State<CustomGame> {
                                               image: AssetImage(
                                                   'assets/Alarm.png')),
                                           borderRadius:
-                                              BorderRadius.circular(20),
+                                          BorderRadius.circular(20),
                                           color: const Color.fromRGBO(
                                               248, 239, 239, 1))),
                                   const SizedBox(width: 20),
@@ -228,7 +230,7 @@ class _CustomGameState extends State<CustomGame> {
                                               image: AssetImage(
                                                   'assets/Close_SM.png')),
                                           borderRadius:
-                                              BorderRadius.circular(20),
+                                          BorderRadius.circular(20),
                                           color: const Color.fromRGBO(
                                               248, 239, 239, 1)))
                                 ])),
@@ -259,3 +261,4 @@ class _CustomGameState extends State<CustomGame> {
     );
   }
 }
+

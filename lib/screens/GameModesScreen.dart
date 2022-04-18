@@ -2,6 +2,10 @@ import 'dart:ui';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:trivial_trivia/game_utils/GameMode.dart';
+import 'package:trivial_trivia/game_utils/TriviaUtils.dart';
+import 'dart:io';
+import '../game_utils/GameManager.dart';
 
 
 class GameModesScreen extends StatelessWidget{
@@ -10,7 +14,8 @@ class GameModesScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-MediaQueryData mediaQueryData = MediaQuery.of(context);
+    GameManager.resetGameManager();
+    MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size size = mediaQueryData.size;
     return Scaffold(
           body: Stack(
@@ -75,8 +80,8 @@ MediaQueryData mediaQueryData = MediaQuery.of(context);
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(
-                    height: 170,
+                  SizedBox(
+                    height: size.height/8,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -98,7 +103,7 @@ MediaQueryData mediaQueryData = MediaQuery.of(context);
                 
                       DecoratedBox(
                           decoration: BoxDecoration(
-                
+
                               gradient: LinearGradient(
                                   colors: [
                                     Color(0xFFA2E3FF).withOpacity(0.80),
@@ -124,7 +129,7 @@ MediaQueryData mediaQueryData = MediaQuery.of(context);
                                 )
                             ),
                 
-                            onPressed: () => Navigator.pushNamed(context, '/trivia'),
+                            onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTEEN_QUESTIONS), context),
                             child: const Padding(
                               padding: EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
                               child:
@@ -171,7 +176,7 @@ MediaQueryData mediaQueryData = MediaQuery.of(context);
                                     )
                                 ),
                 
-                                onPressed: () => Navigator.pushNamed(context, '/trivia'),
+                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTEEN_QUESTIONS),context),
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
                                   child:Column(
@@ -228,7 +233,7 @@ MediaQueryData mediaQueryData = MediaQuery.of(context);
                                     )
                                 ),
                 
-                                onPressed: () => Navigator.pushNamed(context, '/trivia'),
+                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.TWENTY_FIVE_QUESTIONS), context),
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
                                   child:Column(
@@ -290,7 +295,7 @@ MediaQueryData mediaQueryData = MediaQuery.of(context);
                                     )
                                 ),
                 
-                                onPressed: () => Navigator.pushNamed(context, '/trivia'),
+                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTY_QUESTIONS), context),
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
                                   child:Column(
@@ -347,7 +352,7 @@ MediaQueryData mediaQueryData = MediaQuery.of(context);
                                     )
                                 ),
                 
-                                onPressed: () => Navigator.pushNamed(context, '/trivia'),
+                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTY_QUESTIONS), context),
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
                                   child:Column(
@@ -424,8 +429,7 @@ MediaQueryData mediaQueryData = MediaQuery.of(context);
                     ],
                   ),
                 ),
-              )
-
+              ),
 
             ],
           )

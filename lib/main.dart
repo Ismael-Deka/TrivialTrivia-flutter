@@ -25,7 +25,7 @@ void main() {
             '/registration': (context) => const Register(),
             '/resetpassword':(context) => const ResetPassword(),
             '/main':(context) => const GameModesScreen(),
-            '/customgame': (context) => const CustomGame(),
+            '/customgame': (context) => CustomGame(),
             '/trivia':(context) => TriviaQuestionScreen(),
             '/finalscore':(context) => const FinalScore(),
             '/leaderboard':(context) => const Leaderboard(),

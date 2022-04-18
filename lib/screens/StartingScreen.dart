@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StartingScreen extends StatelessWidget {
   const StartingScreen({Key? key}) : super(key: key);
+
+  Future<bool> isInternetAvailable() async { //TODO - check for internet connection
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        return true;
+      }
+    } on SocketException catch (_) {
+      return false;
+    }
+    return false;
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: [
@@ -83,6 +99,32 @@ class StartingScreen extends StatelessWidget {
                     )),
               ),
             ],
+          ),
+          Visibility(
+            visible: false,
+            child: AlertDialog(
+              title: const Text('Internet Connection Required'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: const <Widget>[
+                    Text('Please check your Internet connection before continuing.'),
+                  ],
+                ),
+              ),actions: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () {
+
+                      },
+                    ),
+                  ],
+                )
+            ],
+            ),
+
           )
         ],
       ),

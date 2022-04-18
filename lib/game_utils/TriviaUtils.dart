@@ -81,7 +81,7 @@ class TriviaUtils{
   }
 
   static bool isQuestionMultipleChoice(Question question){
-    String questionType = question.mQuestionType;
+    String questionType = question.questionType;
 
     if(questionType == "multiple"){
       return true;
