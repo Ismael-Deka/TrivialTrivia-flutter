@@ -254,7 +254,7 @@ class TriviaQuestionScreen extends HookWidget{
                   for(int i = 0; i < 4; i++)
                     optionStateList[i].value,
                   const SizedBox(
-                    height: 60.0,
+                    height: 30.0,
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
