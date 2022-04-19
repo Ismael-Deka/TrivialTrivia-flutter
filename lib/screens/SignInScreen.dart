@@ -1,6 +1,8 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trivial_trivia/services/auth.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -13,6 +15,8 @@ class _SignInState extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  Service service = Service();
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -20,6 +24,7 @@ class _SignInState extends State<SignIn> {
     var bottomPadding = mediaQueryData.padding.bottom;
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -31,28 +36,29 @@ class _SignInState extends State<SignIn> {
               padding: EdgeInsets.only(bottom: bottomPadding),
               child: Stack(children: <Widget>[
                 Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: SafeArea(
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                color: Color.fromRGBO(255, 255, 255, 1)),
-                            onPressed: () => Navigator.pushNamed(context, '/starting'),
-                          ),
-                          Text('Back',
-                              style: GoogleFonts.inter(
-                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.italic,
-                              ))
-                        ],
-                      )),
+                  padding: const EdgeInsets.only(left: 10),
+                  child: SafeArea(
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: const FaIcon(FontAwesomeIcons.chevronLeft,
+                                  color: Color.fromRGBO(255, 255, 255, 1)),
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, '/starting'),
+                            ),
+                            Text('Back',
+                                style: GoogleFonts.inter(
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.italic,
+                                ))
+                          ],
+                        )),
+                  ),
                 ),
-              ),
                 Align(
                     alignment: const Alignment(0, -0.55),
                     child: Text('Welcome back',
@@ -143,7 +149,8 @@ class _SignInState extends State<SignIn> {
                                     Align(
                                         alignment: const Alignment(0.65, 0.43),
                                         child: GestureDetector(
-                                            onTap: () => Navigator.pushNamed(context, '/resetpassword'),
+                                            onTap: () => Navigator.pushNamed(
+                                                context, '/resetpassword'),
                                             child: Text('Forgot Password?',
                                                 style: GoogleFonts.inter(
                                                   color: const Color.fromRGBO(
@@ -153,7 +160,21 @@ class _SignInState extends State<SignIn> {
                                                 )))),
                                     Align(
                                       alignment: const Alignment(0, 0.78),
-                                      child: Container(
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          if (emailController.text.isNotEmpty &&
+                                              passwordController
+                                                  .text.isNotEmpty) {
+                                            service.loginUser(
+                                                context,
+                                                emailController.text,
+                                                passwordController.text);
+                                          } else {
+                                            service.errorBox(context,
+                                                "Field must not be empty. Please provide a valid username, email and password");
+                                          }
+                                        },
+                                        child: Container(
                                             width: 140,
                                             height: 40,
                                             decoration: BoxDecoration(
@@ -170,6 +191,7 @@ class _SignInState extends State<SignIn> {
                                                       fontSize: 15)),
                                             )),
                                       ),
+                                    ),
                                   ],
                                 )))),
                   ],

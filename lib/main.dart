@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:trivial_trivia/screens/CustomGameScreen.dart';
 import 'package:trivial_trivia/screens/FinalScoreScreen.dart';
@@ -13,7 +14,11 @@ import 'package:trivial_trivia/screens/SplashScreen.dart';
 import 'package:trivial_trivia/screens/TriviaQuestionScreen.dart';
 
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  
   runApp(
       MaterialApp(
           debugShowCheckedModeBanner: false,

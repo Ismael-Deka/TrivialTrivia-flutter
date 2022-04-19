@@ -1,6 +1,7 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:trivial_trivia/services/auth.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  Service service = Service();
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -150,12 +152,17 @@ class _SettingsState extends State<Settings> {
                           )),
                       Padding(
                         padding: const EdgeInsets.all(40.0),
-                        child: Text("Log Out",
-                            style: GoogleFonts.inter(
-                              color: const Color.fromRGBO(255, 255, 255, 1),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                            )),
+                        child: GestureDetector(
+                          onTap:()async{
+                            service.signOut(context);
+                          },
+                          child: Text("Log Out",
+                              style: GoogleFonts.inter(
+                                color: const Color.fromRGBO(255, 255, 255, 1),
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
                       ),
                     ],
                   ),

@@ -2,6 +2,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trivial_trivia/screens/SignInScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trivial_trivia/services/auth.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -14,6 +16,8 @@ class _RegisterState extends State<Register> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  Service service = Service();
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,8 @@ class _RegisterState extends State<Register> {
                           IconButton(
                             icon: const FaIcon(FontAwesomeIcons.chevronLeft,
                                 color: Color.fromRGBO(255, 255, 255, 1)),
-                            onPressed: () => Navigator.pushNamed(context, '/signin'),
+                            onPressed: () =>
+                                Navigator.pushNamed(context, '/signin'),
                           ),
                           Text('Back',
                               style: GoogleFonts.inter(
@@ -182,23 +187,41 @@ class _RegisterState extends State<Register> {
                                             ))),
                                     Align(
                                         alignment: const Alignment(0, 0.80),
-                                        child: Container(
-                                                width: 140,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    color: Colors.white
-                                                        .withOpacity(0.5)),
-                                                child: Center(
-                                                  child: Text('Register',
-                                                      style: GoogleFonts.inter(
-                                                          color: const Color
-                                                                  .fromRGBO(
-                                                              255, 255, 255, 1),
-                                                          fontSize: 15)),
-                                                )))
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            if (usernameController
+                                                    .text.isNotEmpty &&
+                                                emailController
+                                                    .text.isNotEmpty &&
+                                                passwordController
+                                                    .text.isNotEmpty) {
+                                              service.registerUser(
+                                                  context,
+                                                  usernameController.text,
+                                                  emailController.text,
+                                                  passwordController.text);
+                                            } else {
+                                              service.errorBox(context,
+                                                  "Field must not be empty. Please provide a valid username, email and password");
+                                            }
+                                          },
+                                          child: Container(
+                                              width: 140,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  color: Colors.white
+                                                      .withOpacity(0.5)),
+                                              child: Center(
+                                                child: Text('Register',
+                                                    style: GoogleFonts.inter(
+                                                        color: const Color
+                                                                .fromRGBO(
+                                                            255, 255, 255, 1),
+                                                        fontSize: 15)),
+                                              )),
+                                        ))
                                   ],
                                 ))))
                   ],
