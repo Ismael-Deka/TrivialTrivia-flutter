@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +17,8 @@ class CustomGame extends HookWidget {
   late ValueNotifier numQuestions;
 
 
-  late int minutes;
-  late int seconds;
+  int minutes = 2;
+  int seconds = 0;
 
   String selectedCategory = TriviaUtils.mCategoryList[0];
 
@@ -394,26 +396,36 @@ class CustomGame extends HookWidget {
                                               248, 239, 239, 1)))
                                 ])),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 15.0),
-                              child: GestureDetector(
-                                onTap: () => startCustomGame(context),
-                                child:Container(
-                                    width: 221,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(30),
-                                        color: const Color.fromRGBO(
-                                            248, 239, 239, 1)),
-                                    child: Center(
-                                      child: Text('START',
-                                          style: GoogleFonts.inter(
-                                              color: const Color.fromRGBO(
-                                                  0, 0, 0, 0.6700000166893005),
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w700)),
-                                    ))
+                              padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                        Colors.white),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                        )
+                                    )
+                                ),
+                                onPressed: () {
+                                  startCustomGame(context);
+                                },
+                                child: const Padding(
+                                  padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
+                                  child: Text(
+                                    "START",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20
+                                    ),
+                                  ),
+                                ),
+
                               ),
                             )
+
                           ],
                         ),
                       )

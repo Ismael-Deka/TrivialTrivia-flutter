@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,7 +31,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               child: Stack(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left:10),
+                    padding: const EdgeInsets.only(left: 10),
                     child: SafeArea(
                       child: Align(
                           alignment: Alignment.topLeft,
@@ -39,20 +40,21 @@ class _ResetPasswordState extends State<ResetPassword> {
                               IconButton(
                                 icon: const FaIcon(FontAwesomeIcons.chevronLeft,
                                     color: Color.fromRGBO(255, 255, 255, 1)),
-                               onPressed: () => Navigator.pushNamed(context, '/signin'),
+                                onPressed: () =>
+                                    Navigator.pushNamed(context, '/signin'),
                               ),
                               Text('Back to Login',
-                              style: GoogleFonts.inter(
-                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.italic,
-                              ))
+                                  style: GoogleFonts.inter(
+                                    color:
+                                        const Color.fromRGBO(255, 255, 255, 1),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.italic,
+                                  ))
                             ],
                           )),
                     ),
                   ),
-                  
                   Positioned(
                       top: 80,
                       left: 80,
@@ -61,7 +63,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                           height: 219,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage('assets/ForgotPasswordGem.png'),
+                                image:
+                                    AssetImage('assets/ForgotPasswordGem.png'),
                                 fit: BoxFit.fitWidth),
                           ))),
                   Positioned(
@@ -106,8 +109,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                             child: TextField(
                               controller: emailController,
                               decoration: InputDecoration(
-                                  contentPadding:
-                                      const EdgeInsets.only(left: 15, right: 15),
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 15, right: 15),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
                                     borderRadius: BorderRadius.circular(30),
@@ -120,20 +123,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                                   fillColor: Colors.white.withOpacity(0.5)),
                             ),
                           ),
-                          const SizedBox(height: 40),
-                          Container(
-                              width: 149,
-                              height: 27,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30),
-                                  color: Colors.white.withOpacity(0.5)),
-                              child: Center(
-                                child: Text('Reset Password',
-                                    style: GoogleFonts.inter(
-                                        color: const Color.fromRGBO(
-                                            255, 255, 255, 1),
-                                        fontSize: 10)),
-                              )),
+                          const SizedBox(height: 30),
+                          GestureDetector(
+                            onTap: () {
+                              resetPassword();
+                            },
+                            child: Container(
+                                width: 149,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Colors.white.withOpacity(0.5)),
+                                child: Center(
+                                  child: Text('Reset Password',
+                                      style: GoogleFonts.inter(
+                                          color: const Color.fromRGBO(
+                                              255, 255, 255, 1),
+                                          fontSize: 12)),
+                                )),
+                          ),
                         ],
                       ),
                     ),
@@ -141,5 +149,17 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ],
               ),
             )));
+  }
+
+  Future resetPassword() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
+      const snackBar = SnackBar(
+        content: Text('Password reset email has been sent!'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (e) {
+      print(e);
+    }
   }
 }

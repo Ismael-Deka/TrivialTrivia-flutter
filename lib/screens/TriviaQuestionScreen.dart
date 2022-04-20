@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:html/parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:timer_count_down/timer_count_down.dart';
@@ -285,7 +284,7 @@ class TriviaQuestionScreen extends HookWidget{
                   for(int i = 0; i < 4; i++)
                     optionStateList[i].value,
                   const SizedBox(
-                    height: 60.0,
+                    height: 30.0,
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
