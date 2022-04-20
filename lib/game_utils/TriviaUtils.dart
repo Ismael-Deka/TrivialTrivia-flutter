@@ -36,6 +36,8 @@ class TriviaUtils{
    static const int ANY_CATEGORY = 0;
    static const int MAX_NUM_QUESTIONS = 50;
 
+   static const int NO_TIME_LIMIT = -1;
+
 
   static int getCategoryId(String category){
     if(category == mCategoryList[ANY_CATEGORY]) {
@@ -97,13 +99,13 @@ class TriviaUtils{
         return GameMode(mGameTypeList[ANY_CATEGORY],"",MAX_NUM_QUESTIONS,30);
 
       case FIFTEEN_QUESTIONS:
-        return GameMode(mGameTypeList[ANY_CATEGORY],"", 15,-1);
+        return GameMode(mGameTypeList[ANY_CATEGORY],"", 15,NO_TIME_LIMIT);
 
       case TWENTY_FIVE_QUESTIONS:
-        return GameMode(mGameTypeList[ANY_CATEGORY],"", 25,-1);
+        return GameMode(mGameTypeList[ANY_CATEGORY],"", 25,NO_TIME_LIMIT);
 
       case FIFTY_QUESTIONS:
-        return GameMode(mGameTypeList[ANY_CATEGORY],"",MAX_NUM_QUESTIONS,-1);
+        return GameMode(mGameTypeList[ANY_CATEGORY],"",MAX_NUM_QUESTIONS,NO_TIME_LIMIT);
     }
     return GameMode("", "", -1, -1);
   }

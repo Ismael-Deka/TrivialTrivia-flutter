@@ -2,6 +2,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
 class FinalScore extends StatelessWidget {
+
   const FinalScore({Key? key}) : super(key: key);
 
   @override
@@ -9,11 +10,12 @@ class FinalScore extends StatelessWidget {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size size = mediaQueryData.size;
     var bottomPadding = mediaQueryData.padding.bottom;
-
     final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
-
     var totalCorrect = arguments['numCorrect'];
     var numQuestions = arguments['total'];
+
+
+
 
     return Scaffold(
         body: Stack(children: [
@@ -72,7 +74,8 @@ class FinalScore extends StatelessWidget {
                       image: DecorationImage(
                           image: AssetImage('assets/TrivialTriviaLogo.png'),
                           fit: BoxFit.fitWidth),
-                    )),
+                    )
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),

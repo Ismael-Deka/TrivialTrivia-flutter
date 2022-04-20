@@ -1,10 +1,7 @@
-import 'dart:ui';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:trivial_trivia/game_utils/GameMode.dart';
 import 'package:trivial_trivia/game_utils/TriviaUtils.dart';
-import 'dart:io';
 import '../game_utils/GameManager.dart';
 
 
@@ -106,7 +103,7 @@ class GameModesScreen extends StatelessWidget{
 
                               gradient: LinearGradient(
                                   colors: [
-                                    Color(0xFFA2E3FF).withOpacity(0.80),
+                                    const Color(0xFFA2E3FF).withOpacity(0.80),
                                     Color(0xFFA2E3FF).withOpacity(0.55),
                                     Color(0xFFA2E3FF).withOpacity(0.28)
                                     //add more colors
@@ -352,7 +349,7 @@ class GameModesScreen extends StatelessWidget{
                                     )
                                 ),
                 
-                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTY_QUESTIONS), context),
+                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.THIRTY_SEC_RELAY), context),
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
                                   child:Column(

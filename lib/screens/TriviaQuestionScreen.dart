@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 import 'package:trivial_trivia/game_utils/GameManager.dart';
 import 'package:trivial_trivia/game_utils/Question.dart';
 import 'package:trivial_trivia/game_utils/TriviaUtils.dart';
@@ -31,7 +32,7 @@ class TriviaQuestionScreen extends HookWidget{
     mOptionsList = List<String>.empty(growable: true);
     Question nextQuestion = GameManager.getNextQuestion(context);
     if(nextQuestion.question != ""){
-      questionNumber.value = GameManager.mCurrentQuestionIndex + 1;
+      questionNumber.value = GameManager.currentQuestionIndex + 1;
       questionState.value = nextQuestion.question;
       if(nextQuestion.question.length > 100){
         questionFontSize.value = 15.0;
@@ -40,7 +41,7 @@ class TriviaQuestionScreen extends HookWidget{
       }else{
         questionFontSize.value = 20.0;
       }
-      remainingQuestionCount.value = (GameManager.mCurrentQuestionIndex+1)/GameManager.mQuestionList.length;
+      remainingQuestionCount.value = (GameManager.currentQuestionIndex+1)/GameManager.questionList.length;
       displayOptions(nextQuestion);
     }
 
@@ -137,7 +138,7 @@ class TriviaQuestionScreen extends HookWidget{
       if (index == correctAnswerIndex) {
         selectedOptionStateList[index].value = Colors.greenAccent;
         optionStateList[index].value = getOptionButton(mOptionsList[index], index);
-        GameManager.mCorrectAnswerCount++;
+        GameManager.correctAnswerCount++;
       } else if(index == -1){
         selectedOptionStateList[correctAnswerIndex].value = Colors.greenAccent;
         optionStateList[correctAnswerIndex].value = getOptionButton(mOptionsList[correctAnswerIndex], correctAnswerIndex);
@@ -148,6 +149,30 @@ class TriviaQuestionScreen extends HookWidget{
         optionStateList[correctAnswerIndex].value = getOptionButton(mOptionsList[correctAnswerIndex], correctAnswerIndex);
       }
       isOptionSelected = true;
+    }
+  }
+
+  Widget getCountdown(BuildContext context){
+    if(GameManager.timeLimit > -1) {
+      return Countdown(
+      seconds: GameManager.timeLimit,
+      build: (BuildContext context, double time) =>
+          Text(
+            (time/60).toInt().toString().padLeft(2,'0')+
+                ":"+
+                (time.toInt()%60).toString().padLeft(2,'0'),
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic
+            ),
+          ),
+      interval: Duration(milliseconds: 100),
+
+    );
+    }else{
+      return const SizedBox();
     }
   }
 
@@ -166,6 +191,8 @@ class TriviaQuestionScreen extends HookWidget{
       displayNextQuestion(context);
       isFirstQuestionLoaded = true;
     }
+
+    Size size = MediaQuery.of(context).size;
 
     return Scaffold(
     body:Stack(
@@ -190,7 +217,7 @@ class TriviaQuestionScreen extends HookWidget{
                           IconButton(
                             icon: const FaIcon(FontAwesomeIcons.chevronLeft,
                                 color: Color.fromRGBO(255, 255, 255, 1)),
-                            onPressed: () => Navigator.pushNamed(context, '/main'),
+                            onPressed: () => GameManager.endGameEarly(context),
                           ),
                           Text('Back',
                               style: GoogleFonts.inter(
@@ -198,7 +225,11 @@ class TriviaQuestionScreen extends HookWidget{
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 fontStyle: FontStyle.italic,
-                              ))
+                              )),
+                          SizedBox(
+                            width: size.width * 0.63,
+                          ),
+                          getCountdown(context),
                         ],
                       )),
                 ),

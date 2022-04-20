@@ -7,30 +7,30 @@ import 'package:trivial_trivia/game_utils/Question.dart';
 import 'QuestionLoader.dart';
 
 class GameManager {
-  static List<Question> mQuestionList = List.empty(growable: true);
-  static int mTimeRemaining = -1;
-  static int mCurrentQuestionIndex = -1;
-  static int mCorrectAnswerCount = 0;
+  static List<Question> questionList = List.empty(growable: true);
+  static int timeLimit = -1;
+  static int currentQuestionIndex = -1;
+  static int correctAnswerCount = 0;
 
-  static void setQuestion(List<Question> questionList) {
-    mQuestionList = questionList;
+  static void setQuestion(List<Question> newQuestionList) {
+    questionList = newQuestionList;
   }
 
-  static void setTimeLimit(int timeLimit) {
-    mTimeRemaining = timeLimit;
+  static void setTimeLimit(int newTimeLimit) {
+    timeLimit = newTimeLimit;
   }
 
   static int getTotalQuestionCount() {
-    return mQuestionList.length;
+    return questionList.length;
   }
 
   static int getRemainingQuestionCount() {
-    return mCurrentQuestionIndex-(mCurrentQuestionIndex + 1);
+    return currentQuestionIndex-(currentQuestionIndex + 1);
   }
 
   static bool setSelectedAnswer(String answer) {
-    if(answer == mQuestionList[mCurrentQuestionIndex].correctAnswer){
-      mCorrectAnswerCount++;
+    if(answer == questionList[currentQuestionIndex].correctAnswer){
+      correctAnswerCount++;
       return true;
     }else{
       return false;
@@ -42,9 +42,9 @@ class GameManager {
   }
 
   static Question getNextQuestion(BuildContext context) {
-    if(mQuestionList.length > mCurrentQuestionIndex+1){
-      mCurrentQuestionIndex++;
-      return mQuestionList[mCurrentQuestionIndex];
+    if(questionList.length > currentQuestionIndex+1){
+      currentQuestionIndex++;
+      return questionList[currentQuestionIndex];
     }else{
       endGame(context);
       return Question();
@@ -53,35 +53,38 @@ class GameManager {
   }
 
   static void startTimer(BuildContext context) {
-    if (mTimeRemaining != -1) {
-      Timer(Duration(seconds: mTimeRemaining), () => endGame(context));
+    if (timeLimit != -1) {
+      Timer(Duration(seconds: timeLimit), () =>
+          endGame(context));
     }
   }
 
   static void startGame(GameMode gameMode, BuildContext context) async {
-    mQuestionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
-    mTimeRemaining = gameMode.mTimeLimit;
+    questionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
+    timeLimit = gameMode.mTimeLimit;
     Navigator.pushNamed(context, '/trivia');
     startTimer(context);
 
   }
 
   static void resetGameManager(){
-    mQuestionList = List.empty(growable: true);
-    mTimeRemaining = -1;
-    mCurrentQuestionIndex = -1;
-    mCorrectAnswerCount = 0;
+    questionList = List.empty(growable: true);
+    timeLimit = -1;
+    currentQuestionIndex = -1;
+    correctAnswerCount = 0;
+  }
+  static void endGameEarly(BuildContext context) {
+    Navigator.pop(context);
+    resetGameManager();
   }
 
+
   static void endGame(BuildContext context) {
-    if(Navigator.canPop(context)){
-      Navigator.pop(context);
-    }
     Navigator.pushReplacementNamed(
       context, '/finalscore',
       arguments: {
-        'numCorrect': mCorrectAnswerCount,
-        'total': mQuestionList.length},
+        'numCorrect': correctAnswerCount,
+        'total': questionList.length},
     );
     resetGameManager();
   }
