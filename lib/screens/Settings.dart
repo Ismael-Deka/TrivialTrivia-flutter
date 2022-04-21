@@ -38,7 +38,7 @@ class _SettingsState extends State<Settings> {
                             IconButton(
                               icon: const FaIcon(FontAwesomeIcons.x,
                                   color: Color.fromRGBO(255, 255, 255, 1)),
-                              onPressed: () => Navigator.pushNamed(context, '/profile'),
+                              onPressed: () => Navigator.pop(context),
                             ),
                             Text('Settings',
                                 style: GoogleFonts.inter(
