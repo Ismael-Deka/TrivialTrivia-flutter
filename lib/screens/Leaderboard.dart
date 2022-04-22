@@ -36,7 +36,7 @@ class _LeaderboardState extends State<Leaderboard> {
                             IconButton(
                               icon: const FaIcon(FontAwesomeIcons.chevronLeft,
                                   color: Color.fromRGBO(255, 255, 255, 1)),
-                              onPressed: () {},
+                              onPressed: () => Navigator.pop(context),
                             ),
                             Text('Back',
                                 style: GoogleFonts.inter(

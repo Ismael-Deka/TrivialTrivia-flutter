@@ -52,18 +52,11 @@ class GameManager {
 
   }
 
-  static void startTimer(BuildContext context) {
-    if (timeLimit != -1) {
-      Timer(Duration(seconds: timeLimit), () =>
-          endGame(context));
-    }
-  }
 
   static void startGame(GameMode gameMode, BuildContext context) async {
     questionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
     timeLimit = gameMode.mTimeLimit;
     Navigator.pushNamed(context, '/trivia');
-    startTimer(context);
 
   }
 

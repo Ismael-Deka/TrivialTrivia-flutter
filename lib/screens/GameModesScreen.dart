@@ -100,7 +100,6 @@ class GameModesScreen extends StatelessWidget{
                 
                       DecoratedBox(
                           decoration: BoxDecoration(
-
                               gradient: LinearGradient(
                                   colors: [
                                     const Color(0xFFA2E3FF).withOpacity(0.80),
@@ -115,7 +114,7 @@ class GameModesScreen extends StatelessWidget{
                                     blurRadius: 5) //blur radius of shadow
                               ]
                           ),
-                          child:ElevatedButton(
+                          child:TextButton(
                             style: ButtonStyle(
                                 shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -128,7 +127,7 @@ class GameModesScreen extends StatelessWidget{
                 
                             onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTEEN_QUESTIONS), context),
                             child: const Padding(
-                              padding: EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
+                              padding: EdgeInsets.fromLTRB(50.0, 30.0, 50.0, 30.0),
                               child:
                               Text(
                                 "Daily Challenge",
@@ -162,7 +161,7 @@ class GameModesScreen extends StatelessWidget{
                                         blurRadius: 5) //blur radius of shadow
                                   ]
                               ),
-                              child:ElevatedButton(
+                              child:TextButton(
                                 style: ButtonStyle(
                                     shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
                                     backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -175,7 +174,7 @@ class GameModesScreen extends StatelessWidget{
                 
                                 onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTEEN_QUESTIONS),context),
                                 child: Padding(
-                                  padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
+                                  padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
                                   child:Column(
                                     children: const [
                                       Text(
@@ -219,7 +218,7 @@ class GameModesScreen extends StatelessWidget{
                                         blurRadius: 5) //blur radius of shadow
                                   ]
                               ),
-                              child:ElevatedButton(
+                              child:TextButton(
                                 style: ButtonStyle(
                                     shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
                                     backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -232,7 +231,7 @@ class GameModesScreen extends StatelessWidget{
                 
                                 onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.TWENTY_FIVE_QUESTIONS), context),
                                 child: Padding(
-                                  padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
+                                  padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
                                   child:Column(
                                     children: const [
                                       Text(
@@ -281,7 +280,7 @@ class GameModesScreen extends StatelessWidget{
                                         blurRadius: 5) //blur radius of shadow
                                   ]
                               ),
-                              child:ElevatedButton(
+                              child:TextButton(
                                 style: ButtonStyle(
                                     shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
                                     backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -294,7 +293,7 @@ class GameModesScreen extends StatelessWidget{
                 
                                 onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTY_QUESTIONS), context),
                                 child: Padding(
-                                  padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
+                                  padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
                                   child:Column(
                                     children: const [
                                       Text(
@@ -338,7 +337,7 @@ class GameModesScreen extends StatelessWidget{
                                         blurRadius: 5) //blur radius of shadow
                                   ]
                               ),
-                              child:ElevatedButton(
+                              child:TextButton(
                                 style: ButtonStyle(
                                     shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
                                     backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -351,7 +350,7 @@ class GameModesScreen extends StatelessWidget{
                 
                                 onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.THIRTY_SEC_RELAY), context),
                                 child: Padding(
-                                  padding: EdgeInsets.fromLTRB(10.0, 40.0, 10.0, 40.0),
+                                  padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
                                   child:Column(
                                     children: const [
                                       Text(
@@ -396,7 +395,7 @@ class GameModesScreen extends StatelessWidget{
                                     blurRadius: 5) //blur radius of shadow
                               ]
                           ),
-                          child:ElevatedButton(
+                          child:TextButton(
                             style: ButtonStyle(
                                 shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
                                 backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
@@ -409,7 +408,7 @@ class GameModesScreen extends StatelessWidget{
                 
                             onPressed: () => Navigator.pushNamed(context, '/customgame'),
                             child: const Padding(
-                              padding: EdgeInsets.fromLTRB(85.0, 20.0, 85.0, 20.0),
+                              padding: EdgeInsets.fromLTRB(95.0, 15.0, 95.0, 15.0),
                               child:
                               Text(
                                 "Custom Game",

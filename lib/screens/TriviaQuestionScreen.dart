@@ -168,6 +168,7 @@ class TriviaQuestionScreen extends HookWidget{
             ),
           ),
       interval: Duration(milliseconds: 100),
+        onFinished: ()=>GameManager.endGame(context),
 
     );
     }else{
