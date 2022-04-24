@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trivial_trivia/services/auth.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:trivial_trivia/services/utils.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -14,8 +18,16 @@ class _RegisterState extends State<Register> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  Uint8List? _image;
 
   Service service = Service();
+
+  void selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +94,7 @@ class _RegisterState extends State<Register> {
                                 child: Stack(
                                   children: <Widget>[
                                     Align(
-                                      alignment: const Alignment(0, -0.70),
+                                      alignment: const Alignment(0, -0.90),
                                       child: Text('Sign Up',
                                           style: GoogleFonts.inter(
                                             color: const Color.fromRGBO(
@@ -93,7 +105,48 @@ class _RegisterState extends State<Register> {
                                           )),
                                     ),
                                     Align(
-                                        alignment: const Alignment(0, -0.38),
+                                      alignment: const Alignment(0, -0.75),
+                                      child: Container(
+                                        width: size.width,
+                                        height: size.height * 0.20,
+                                        color: Colors.transparent,
+                                        child: Center(
+                                          child: Container(
+                                              width: 90,
+                                              height: 90,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Color.fromRGBO(
+                                                    162, 227, 255, 1),
+                                              ),
+                                              child: Center(
+                                                  child: _image != null
+                                                      ? CircleAvatar(
+                                                          radius: 38,
+                                                          backgroundImage:
+                                                              MemoryImage(
+                                                                  _image!),
+                                                        )
+                                                      : const CircleAvatar(
+                                                          radius: 38,
+                                                          backgroundImage:
+                                                              AssetImage(
+                                                                  'assets/Ellipse 425.png'),
+                                                        )                                            
+                                                  )),
+                                        ),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: const Alignment(0.25, -0.40),
+                                      child: IconButton(
+                                          onPressed: selectImage,
+                                          icon: const Icon(Icons.add_a_photo,
+                                              color: Color.fromARGB(
+                                                  255, 66, 66, 66))),
+                                    ),
+                                    Align(
+                                        alignment: const Alignment(0, -0.20),
                                         child: SizedBox(
                                           height: 40,
                                           width: 250,
@@ -119,7 +172,7 @@ class _RegisterState extends State<Register> {
                                           ),
                                         )),
                                     Align(
-                                      alignment: const Alignment(0, -0.04),
+                                      alignment: const Alignment(0, 0.07),
                                       child: SizedBox(
                                         height: 40,
                                         width: 250,
@@ -146,7 +199,7 @@ class _RegisterState extends State<Register> {
                                       ),
                                     ),
                                     Align(
-                                      alignment: const Alignment(0, 0.30),
+                                      alignment: const Alignment(0, 0.35),
                                       child: SizedBox(
                                         height: 40,
                                         width: 250,
@@ -174,7 +227,7 @@ class _RegisterState extends State<Register> {
                                       ),
                                     ),
                                     Align(
-                                        alignment: const Alignment(-0.30, 0.45),
+                                        alignment: const Alignment(-0.30, 0.50),
                                         child: Text(
                                             'Your password must be 6-72 characters',
                                             style: GoogleFonts.inter(
@@ -187,21 +240,14 @@ class _RegisterState extends State<Register> {
                                         alignment: const Alignment(0, 0.80),
                                         child: GestureDetector(
                                           onTap: () async {
-                                            if (usernameController
-                                                    .text.isNotEmpty &&
-                                                emailController
-                                                    .text.isNotEmpty &&
-                                                passwordController
-                                                    .text.isNotEmpty) {
-                                              service.registerUser(
-                                                  context,
-                                                  usernameController.text,
-                                                  emailController.text,
-                                                  passwordController.text);
-                                            } else {
-                                              service.errorBox(context,
-                                                  "Field must not be empty. Please provide a valid username, email and password");
-                                            }
+                                            String res =
+                                                await Service().registerUser(
+                                              context,
+                                              email: emailController.text,
+                                              username: usernameController.text,
+                                              password: passwordController.text,
+                                              file: _image!
+                                            );
                                           },
                                           child: Container(
                                               width: 140,

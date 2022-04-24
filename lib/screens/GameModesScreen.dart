@@ -1,19 +1,41 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:trivial_trivia/game_utils/TriviaUtils.dart';
+import 'package:trivial_trivia/providers/user_provider.dart';
 import '../game_utils/GameManager.dart';
+import 'package:trivial_trivia/models/user.dart' as model;
 
 
-class GameModesScreen extends StatelessWidget{
+class GameModesScreen extends StatefulWidget{
   const GameModesScreen({Key? key}) : super(key: key);
 
+  @override
+  State<GameModesScreen> createState() => _GameModesScreenState();
+}
+
+class _GameModesScreenState extends State<GameModesScreen> {
+
+  @override
+  void initState(){
+    super.initState();
+    addData();
+  }
+
+  addData() async {
+
+    UserProvider _userProvider = Provider.of(context, listen:false);
+    await _userProvider.refreshUser();
+  }
 
   @override
   Widget build(BuildContext context) {
     GameManager.resetGameManager();
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size size = mediaQueryData.size;
+    model.User user = Provider.of<UserProvider>(context).getUser;
+
     return Scaffold(
           body: Stack(
             children: [
@@ -46,8 +68,13 @@ class GameModesScreen extends StatelessWidget{
                                 fontStyle: FontStyle.italic,
                               )),
                       SizedBox(
-                      width: size.width * 0.63,
+                      width: size.width * 0.50,
                     ), 
+                    IconButton(
+                            icon: const FaIcon(FontAwesomeIcons.magnifyingGlass,
+                                color: Color.fromRGBO(255, 255, 255, 1)),
+                            onPressed: () => Navigator.pushNamed(context, '/search'),
+                          ),
                       GestureDetector(
                         onTap: () => Navigator.pushNamed(context, '/profile'),
                         child: Container(
@@ -61,10 +88,10 @@ class GameModesScreen extends StatelessWidget{
                           child: Container(
                             width: 35,
                             height: 35,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: AssetImage('assets/Ellipse 425.png'),
+                                  image: NetworkImage(user.photoURL),
                                   fit: BoxFit.cover,
                                 )),
                           ),
@@ -258,7 +285,7 @@ class GameModesScreen extends StatelessWidget{
                         ],
                       ),
                       SizedBox(
-                        height: 140.0,
+                        height: 100.0,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -431,5 +458,4 @@ class GameModesScreen extends StatelessWidget{
           )
     );
   }
-
 }
