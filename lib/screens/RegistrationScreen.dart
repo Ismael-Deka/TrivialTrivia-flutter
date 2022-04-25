@@ -166,7 +166,7 @@ class _RegisterState extends State<Register> {
                                                 height: 40,
                                                 width: 250,
                                                 child: TextField(
-                                                  controller: emailController,
+                                                  controller: usernameController,
                                                   decoration: InputDecoration(
                                                       contentPadding:
                                                           const EdgeInsets.only(
@@ -181,7 +181,7 @@ class _RegisterState extends State<Register> {
                                                                 .circular(30),
                                                       ),
                                                       filled: true,
-                                                      hintText: "Email",
+                                                      hintText: "Username",
                                                       hintStyle:
                                                           const TextStyle(
                                                               fontSize: 13,
