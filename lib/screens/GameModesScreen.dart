@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:trivial_trivia/game_utils/TriviaUtils.dart';
 import '../game_utils/GameManager.dart';
+import '../services/auth.dart';
 
 
 class GameModesScreen extends StatelessWidget{
@@ -94,62 +95,17 @@ class GameModesScreen extends StatelessWidget{
               Padding(
                 padding: const EdgeInsets.only(top:60.0, bottom: 40.0, left: 40.0, right: 40.0),
                 child:SafeArea(
-                  child: Column(
-                
+                  child: Stack(
+
                     children:  [
-                
-                      DecoratedBox(
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    const Color(0xFFA2E3FF).withOpacity(0.80),
-                                    Color(0xFFA2E3FF).withOpacity(0.55),
-                                    Color(0xFFA2E3FF).withOpacity(0.28)
-                                    //add more colors
-                                  ]),
-                              borderRadius: BorderRadius.circular(18.0),
-                              boxShadow: const <BoxShadow>[
-                                BoxShadow(
-                                    color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
-                                    blurRadius: 5) //blur radius of shadow
-                              ]
-                          ),
-                          child:TextButton(
-                            style: ButtonStyle(
-                                shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                    )
-                                )
-                            ),
-                
-                            onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTEEN_QUESTIONS), context),
-                            child: const Padding(
-                              padding: EdgeInsets.fromLTRB(50.0, 30.0, 50.0, 30.0),
-                              child:
-                              Text(
-                                "Daily Challenge",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25.0
-                                ),
-                              ),
-                            ),
-                          )
-                      ),
-                      const SizedBox(height: 30.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           DecoratedBox(
                               decoration: BoxDecoration(
-                
                                   gradient: LinearGradient(
                                       colors: [
-                                        Color(0xFFA2E3FF).withOpacity(0.80),
+                                        const Color(0xFFA2E3FF).withOpacity(0.80),
                                         Color(0xFFA2E3FF).withOpacity(0.55),
                                         Color(0xFFA2E3FF).withOpacity(0.28)
                                         //add more colors
@@ -171,259 +127,315 @@ class GameModesScreen extends StatelessWidget{
                                         )
                                     )
                                 ),
-                
-                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTEEN_QUESTIONS),context),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
-                                  child:Column(
-                                    children: const [
-                                      Text(
-                                        "15",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 24.0
-                                        ),
-                                      ),
-                                      Text(
-                                        "Questions",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.0
-                                        ),
-                                      ),
-                                    ],
+
+                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTEEN_QUESTIONS), context),
+                                child: const Padding(
+                                  padding: EdgeInsets.fromLTRB(50.0, 30.0, 50.0, 30.0),
+                                  child:
+                                  Text(
+                                    "Daily Challenge",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25.0
+                                    ),
                                   ),
                                 ),
                               )
                           ),
-                          SizedBox(
-                              width: 60.0
-                          ),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xFFA2E3FF).withOpacity(0.80),
-                                        Color(0xFFA2E3FF).withOpacity(0.55),
-                                        Color(0xFFA2E3FF).withOpacity(0.28)
-                                        //add more colors
-                                      ]),
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  boxShadow: const <BoxShadow>[
-                                    BoxShadow(
-                                        color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
-                                        blurRadius: 5) //blur radius of shadow
-                                  ]
-                              ),
-                              child:TextButton(
-                                style: ButtonStyle(
-                                    shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(18.0),
+                          SizedBox(height: size.height/20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DecoratedBox(
+                                  decoration: BoxDecoration(
+
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xFFA2E3FF).withOpacity(0.80),
+                                            Color(0xFFA2E3FF).withOpacity(0.55),
+                                            Color(0xFFA2E3FF).withOpacity(0.28)
+                                            //add more colors
+                                          ]),
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      boxShadow: const <BoxShadow>[
+                                        BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
+                                            blurRadius: 5) //blur radius of shadow
+                                      ]
+                                  ),
+                                  child:TextButton(
+                                    style: ButtonStyle(
+                                        shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18.0),
+                                            )
                                         )
-                                    )
-                                ),
-                
-                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.TWENTY_FIVE_QUESTIONS), context),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
-                                  child:Column(
-                                    children: const [
-                                      Text(
-                                        "25",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 24.0
-                                        ),
+                                    ),
+
+                                    onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTEEN_QUESTIONS),context),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
+                                      child:Column(
+                                        children: const [
+                                          Text(
+                                            "15",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 24.0
+                                            ),
+                                          ),
+                                          Text(
+                                            "Questions",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.0
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        "Questions",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.0
-                                        ),
-                                      ),
-                                    ],
+                                    ),
+                                  )
+                              ),
+                              SizedBox(
+                                  width: 60.0
+                              ),
+                              DecoratedBox(
+                                  decoration: BoxDecoration(
+
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xFFA2E3FF).withOpacity(0.80),
+                                            Color(0xFFA2E3FF).withOpacity(0.55),
+                                            Color(0xFFA2E3FF).withOpacity(0.28)
+                                            //add more colors
+                                          ]),
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      boxShadow: const <BoxShadow>[
+                                        BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
+                                            blurRadius: 5) //blur radius of shadow
+                                      ]
                                   ),
-                                ),
-                              )
+                                  child:TextButton(
+                                    style: ButtonStyle(
+                                        shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18.0),
+                                            )
+                                        )
+                                    ),
+
+                                    onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.TWENTY_FIVE_QUESTIONS), context),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
+                                      child:Column(
+                                        children: const [
+                                          Text(
+                                            "25",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 24.0
+                                            ),
+                                          ),
+                                          Text(
+                                            "Questions",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.0
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+                            ],
                           ),
                         ],
                       ),
+
                       SizedBox(
-                        height: 140.0,
+                        height: size.height/15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xFFA2E3FF).withOpacity(0.80),
-                                        Color(0xFFA2E3FF).withOpacity(0.55),
-                                        Color(0xFFA2E3FF).withOpacity(0.28)
-                                        //add more colors
-                                      ]),
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  boxShadow: const <BoxShadow>[
-                                    BoxShadow(
-                                        color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
-                                        blurRadius: 5) //blur radius of shadow
-                                  ]
-                              ),
-                              child:TextButton(
-                                style: ButtonStyle(
-                                    shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(18.0),
-                                        )
-                                    )
-                                ),
-                
-                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTY_QUESTIONS), context),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
-                                  child:Column(
-                                    children: const [
-                                      Text(
-                                        "50",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 24.0
-                                        ),
-                                      ),
-                                      Text(
-                                        "Questions",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.0
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                          ),
-                          SizedBox(
-                              width: 60.0
-                          ),
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xFFA2E3FF).withOpacity(0.80),
-                                        Color(0xFFA2E3FF).withOpacity(0.55),
-                                        Color(0xFFA2E3FF).withOpacity(0.28)
-                                        //add more colors
-                                      ]),
-                                  borderRadius: BorderRadius.circular(18.0),
-                                  boxShadow: const <BoxShadow>[
-                                    BoxShadow(
-                                        color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
-                                        blurRadius: 5) //blur radius of shadow
-                                  ]
-                              ),
-                              child:TextButton(
-                                style: ButtonStyle(
-                                    shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(18.0),
-                                        )
-                                    )
-                                ),
-                
-                                onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.THIRTY_SEC_RELAY), context),
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
-                                  child:Column(
-                                    children: const [
-                                      Text(
-                                        "30 sec",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 22.0
-                                        ),
-                                      ),
-                                      Text(
-                                        "relay",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15.0
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                          ),
-                
-                        ],
-                      ),
-                      SizedBox(height: 40.0),
-                      DecoratedBox(
-                          decoration: BoxDecoration(
-                
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xFFA2E3FF).withOpacity(0.80),
-                                    Color(0xFFA2E3FF).withOpacity(0.55),
-                                    Color(0xFFA2E3FF).withOpacity(0.28)
-                                    //add more colors
-                                  ]),
-                              borderRadius: BorderRadius.circular(18.0),
-                              boxShadow: const <BoxShadow>[
-                                BoxShadow(
-                                    color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
-                                    blurRadius: 5) //blur radius of shadow
-                              ]
-                          ),
-                          child:TextButton(
-                            style: ButtonStyle(
-                                shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              DecoratedBox(
+                                  decoration: BoxDecoration(
+
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xFFA2E3FF).withOpacity(0.80),
+                                            Color(0xFFA2E3FF).withOpacity(0.55),
+                                            Color(0xFFA2E3FF).withOpacity(0.28)
+                                            //add more colors
+                                          ]),
                                       borderRadius: BorderRadius.circular(18.0),
-                                    )
-                                )
-                            ),
-                
-                            onPressed: () => Navigator.pushNamed(context, '/customgame'),
-                            child: const Padding(
-                              padding: EdgeInsets.fromLTRB(95.0, 15.0, 95.0, 15.0),
-                              child:
-                              Text(
-                                "Custom Game",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15.0
-                                ),
+                                      boxShadow: const <BoxShadow>[
+                                        BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
+                                            blurRadius: 5) //blur radius of shadow
+                                      ]
+                                  ),
+                                  child:TextButton(
+                                    style: ButtonStyle(
+                                        shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18.0),
+                                            )
+                                        )
+                                    ),
+
+                                    onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.FIFTY_QUESTIONS), context),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
+                                      child:Column(
+                                        children: const [
+                                          Text(
+                                            "50",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 24.0
+                                            ),
+                                          ),
+                                          Text(
+                                            "Questions",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.0
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
                               ),
-                            ),
-                          )
-                      ),
-                
-                    ],
-                  ),
+                              SizedBox(
+                                  width: 60.0
+                              ),
+                              DecoratedBox(
+                                  decoration: BoxDecoration(
+
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Color(0xFFA2E3FF).withOpacity(0.80),
+                                            Color(0xFFA2E3FF).withOpacity(0.55),
+                                            Color(0xFFA2E3FF).withOpacity(0.28)
+                                            //add more colors
+                                          ]),
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      boxShadow: const <BoxShadow>[
+                                        BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
+                                            blurRadius: 5) //blur radius of shadow
+                                      ]
+                                  ),
+                                  child:TextButton(
+                                    style: ButtonStyle(
+                                        shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                        backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(18.0),
+                                            )
+                                        )
+                                    ),
+
+                                    onPressed: () => GameManager.startGame(TriviaUtils.getGameArgs(TriviaUtils.THIRTY_SEC_RELAY), context),
+                                    child: Padding(
+                                      padding: EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
+                                      child:Column(
+                                        children: const [
+                                          Text(
+                                            "30 sec",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 22.0
+                                            ),
+                                          ),
+                                          Text(
+                                            "relay",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15.0
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                              ),
+
+                            ],
+                          ),
+                          SizedBox(height: 40.0),
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        Color(0xFFA2E3FF).withOpacity(0.80),
+                                        Color(0xFFA2E3FF).withOpacity(0.55),
+                                        Color(0xFFA2E3FF).withOpacity(0.28)
+                                        //add more colors
+                                      ]),
+                                  borderRadius: BorderRadius.circular(18.0),
+                                  boxShadow: const <BoxShadow>[
+                                    BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.10), //shadow for button
+                                        blurRadius: 5) //blur radius of shadow
+                                  ]
+                              ),
+                              child:TextButton(
+                                style: ButtonStyle(
+                                    shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                    backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(18.0),
+                                        )
+                                    )
+                                ),
+
+                                onPressed: () => Navigator.pushNamed(context, '/customgame'),
+                                child: const Padding(
+                                  padding: EdgeInsets.fromLTRB(95.0, 15.0, 95.0, 15.0),
+                                  child:
+                                  Text(
+                                    "Custom Game",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15.0
+                                    ),
+                                  ),
+                                ),
+                              )
+                          ),
+                        ],
+                      )
+
+
+                  ]),
                 ),
               ),
 

@@ -11,8 +11,11 @@ class FinalScore extends StatelessWidget {
     Size size = mediaQueryData.size;
     var bottomPadding = mediaQueryData.padding.bottom;
     final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+
     var totalCorrect = arguments['numCorrect'];
     var numQuestions = arguments['total'];
+    var averageTime = "Average time per question: " + (arguments['time_completed']==null?"":arguments['time_completed'] );
+    var pointsGained = "+" + arguments['points_gained'].toString();
 
 
 
@@ -66,13 +69,13 @@ class FinalScore extends StatelessWidget {
           Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 120, bottom: 10),
+                padding: const EdgeInsets.only(top: 50, bottom: 10),
                 child: Container(
                     width: 482,
-                    height: 300,
+                    height: size.height*0.35,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/TrivialTriviaLogo.png'),
+                          image: AssetImage('assets/logo_small.png'),
                           fit: BoxFit.fitWidth),
                     )
                 ),
@@ -87,11 +90,45 @@ class FinalScore extends StatelessWidget {
               ),
               //Need to update and add setState
               //just placement for UI
-              Text("$totalCorrect/$numQuestions",
-                  style: GoogleFonts.inter(
-                      color: const Color.fromRGBO(255, 255, 255, 1),
-                      fontSize: 50,
-                      fontWeight: FontWeight.w700)),
+              Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Container(
+                    width: size.width,
+                    height: size.height * 0.19,
+                    color: Colors.transparent,
+                    child: Center(
+                        child: Container(
+                          width: size.width * 0.85,
+                          height: size.height * 0.15,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: const Color.fromRGBO(249, 240, 240, 1)
+                                .withOpacity(.80),
+                          ),
+                          child: Center(
+                            //update current rank
+                              child: Column(
+                                children: [
+                                  Text("Final Score: $totalCorrect/$numQuestions",
+                                      style: GoogleFonts.inter(
+                                          color: const Color.fromRGBO(150, 134, 134, 1),
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w700)),
+                                  Text(averageTime,
+                                      style: GoogleFonts.inter(
+                                          color: const Color.fromRGBO(150, 134, 134, 1),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700)),
+                                  Text("Points gained: $pointsGained",
+                                      style: GoogleFonts.inter(
+                                          color: const Color.fromRGBO(150, 134, 134, 1),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700)),
+                                ],
+                              )),
+                        )),
+                  )),
+
               Padding(
                 padding: const EdgeInsets.only(top: 50, bottom: 30),
                 child: GestureDetector(
@@ -137,6 +174,7 @@ class FinalScore extends StatelessWidget {
                       )),
                 ),
               ),
+
             ],
           ),
 

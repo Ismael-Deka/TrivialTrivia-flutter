@@ -45,7 +45,7 @@ class TriviaUtils{
     }
     if(mCategoryList.contains(category)){
       int categoryIndex = mCategoryList.indexOf(category);
-      return categoryIndex + 9;
+      return categoryIndex + 8;
     }else {
       return -1;
     }

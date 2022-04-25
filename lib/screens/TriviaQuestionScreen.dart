@@ -19,6 +19,7 @@ class TriviaQuestionScreen extends HookWidget{
   late ValueNotifier questionNumber;
   late ValueNotifier questionFontSize;
   late ValueNotifier remainingQuestionCount;
+  late String questionDifficulty;
 
   int correctAnswerIndex = 2;
   bool isOptionSelected = false;
@@ -33,6 +34,7 @@ class TriviaQuestionScreen extends HookWidget{
     if(nextQuestion.question != ""){
       questionNumber.value = GameManager.currentQuestionIndex + 1;
       questionState.value = nextQuestion.question;
+      questionDifficulty = nextQuestion.difficulty;
       if(nextQuestion.question.length > 100){
         questionFontSize.value = 15.0;
       }else if(nextQuestion.question.length > 50){
@@ -41,15 +43,16 @@ class TriviaQuestionScreen extends HookWidget{
         questionFontSize.value = 20.0;
       }
       remainingQuestionCount.value = (GameManager.currentQuestionIndex+1)/GameManager.questionList.length;
-      displayOptions(nextQuestion);
+      displayOptions(nextQuestion,context);
     }
 
 
   }
 
-  void displayOptions(Question nextQuestion){
+  void displayOptions(Question nextQuestion,BuildContext context){
     int offset = 0;
     String option = "";
+    Size size = MediaQuery.of(context).size;
     if(TriviaUtils.isQuestionMultipleChoice(nextQuestion)) {
       correctAnswerIndex = Random().nextInt(3);
 
@@ -62,7 +65,7 @@ class TriviaQuestionScreen extends HookWidget{
           option = nextQuestion.incorrectAnswers[i - offset];
         }
         mOptionsList.add(option);
-        optionStateList[i].value = getOptionButton(option, i);
+        optionStateList[i].value = getOptionButton(option, i,size.height*0.05);
       }
     }else{
       if(nextQuestion.correctAnswer == "True"){
@@ -72,8 +75,8 @@ class TriviaQuestionScreen extends HookWidget{
       }
       mOptionsList.add("True");
       mOptionsList.add("False");
-      optionStateList[0].value = getOptionButton("True", 0);
-      optionStateList[1].value = getOptionButton("False", 1);
+      optionStateList[0].value = getOptionButton("True", 0,size.height*0.05);
+      optionStateList[1].value = getOptionButton("False", 1,size.height*0.05);
       optionStateList[2].value = Column();
       optionStateList[3].value = Column();
 
@@ -81,7 +84,7 @@ class TriviaQuestionScreen extends HookWidget{
   }
 
 
-  Column getOptionButton(String option, int index){
+  Column getOptionButton(String option, int index,double sizing){
     double textSize = 0.0;
     if(option.length > 40){
       textSize = 12.0;
@@ -91,8 +94,8 @@ class TriviaQuestionScreen extends HookWidget{
       textSize = 18.0;
     }
     return Column(children: [
-      const SizedBox(
-        height: 45.0,
+      SizedBox(
+        height: sizing,
       ),
       ElevatedButton(
         style: ButtonStyle(
@@ -105,7 +108,7 @@ class TriviaQuestionScreen extends HookWidget{
             )
         ),
         onPressed: () {
-          displayCorrectOption(index);
+          displayCorrectOption(sizing,index);
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
@@ -132,20 +135,21 @@ class TriviaQuestionScreen extends HookWidget{
     isOptionSelected = false;
   }
 
-  void displayCorrectOption([int index = -1]){
+  void displayCorrectOption(double sizing,[int index = -1]){
     if(!isOptionSelected) {
       if (index == correctAnswerIndex) {
+        GameManager.addPoints(questionDifficulty);
         selectedOptionStateList[index].value = Colors.greenAccent;
-        optionStateList[index].value = getOptionButton(mOptionsList[index], index);
+        optionStateList[index].value = getOptionButton(mOptionsList[index], index, sizing);
         GameManager.correctAnswerCount++;
       } else if(index == -1){
         selectedOptionStateList[correctAnswerIndex].value = Colors.greenAccent;
-        optionStateList[correctAnswerIndex].value = getOptionButton(mOptionsList[correctAnswerIndex], correctAnswerIndex);
+        optionStateList[correctAnswerIndex].value = getOptionButton(mOptionsList[correctAnswerIndex], correctAnswerIndex, sizing);
       }else {
         selectedOptionStateList[index].value = Colors.redAccent[100];
         selectedOptionStateList[correctAnswerIndex].value = Colors.greenAccent;
-        optionStateList[index].value = getOptionButton(mOptionsList[index], index);
-        optionStateList[correctAnswerIndex].value = getOptionButton(mOptionsList[correctAnswerIndex], correctAnswerIndex);
+        optionStateList[index].value = getOptionButton(mOptionsList[index], index, sizing);
+        optionStateList[correctAnswerIndex].value = getOptionButton(mOptionsList[correctAnswerIndex], correctAnswerIndex, sizing);
       }
       isOptionSelected = true;
     }
@@ -155,18 +159,21 @@ class TriviaQuestionScreen extends HookWidget{
     if(GameManager.timeLimit > -1) {
       return Countdown(
       seconds: GameManager.timeLimit,
-      build: (BuildContext context, double time) =>
-          Text(
-            (time/60).toInt().toString().padLeft(2,'0')+
-                ":"+
-                (time.toInt()%60).toString().padLeft(2,'0'),
-            style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic
-            ),
+      build: (BuildContext context, double time) {
+        GameManager.timeRemaining = time;
+        return Text(
+          (time / 60).toInt().toString().padLeft(2, '0') +
+              ":" +
+              (time.toInt() % 60).toString().padLeft(2, '0'),
+          style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+              fontStyle: FontStyle.italic
           ),
+        );
+
+      },
       interval: Duration(milliseconds: 100),
         onFinished: ()=>GameManager.endGame(context),
 
@@ -303,7 +310,7 @@ class TriviaQuestionScreen extends HookWidget{
                         resetOptionColors();
                         displayNextQuestion(context);
                       }else{
-                        displayCorrectOption();
+                        displayCorrectOption(size.height*0.05);
                       }
 
                       },

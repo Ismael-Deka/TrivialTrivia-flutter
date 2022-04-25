@@ -1,4 +1,3 @@
-//import 'dart:html';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,7 +31,7 @@ class Service {
   void loginUser(context, email, password) async {
     try {
       await auth
-          .signInWithEmailAndPassword(email: email, password: password)
+          .signInWithEmailAndPassword(email: email.trim(), password: password)
           .then((value) => {
                 Navigator.pushNamed(context, '/main')
               });
@@ -50,6 +49,38 @@ class Service {
       errorBox(context, e);
     }
   }
+
+  void addPoints(context, int points) async {
+    try {
+      await _db.collection('users').doc(auth.currentUser!.uid).update({'points':points});
+    } catch (e) {
+      errorBox(context, e);
+    }
+  }
+
+ Future<int> getPoints(context) async{
+      try {
+        DocumentSnapshot d = await _db.collection('users')
+            .doc(auth.currentUser!.uid)
+            .get();
+        return d.get("points");
+      }catch (e) {
+        errorBox(context, e);
+        return 0;
+      }
+  }
+
+  Future<List<List<String>>> getLeaderboard() async{
+    List<List<String>> playerList = List.empty(growable: true);
+    await _db.collection('users').orderBy('points',descending: false).get().then((QuerySnapshot q) {
+      for (var d in q.docs) {
+        playerList.add([d.get("username"),d.get("points").toString(),d.get("photoURL")]);
+      }
+    });
+    return playerList;
+  }
+
+
   
 
   void errorBox(context, e) {

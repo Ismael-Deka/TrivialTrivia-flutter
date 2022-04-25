@@ -33,7 +33,7 @@ void main() async {
             '/customgame': (context) => CustomGame(),
             '/trivia':(context) => TriviaQuestionScreen(),
             '/finalscore':(context) => const FinalScore(),
-            '/leaderboard':(context) => const Leaderboard(),
+            '/leaderboard':(context) => Leaderboard(),
             '/profile':(context) => const Profile(), 
             '/settings': (context) => const Settings(),
             }  
