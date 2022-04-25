@@ -14,8 +14,23 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-
+  bool _isLoading = false;
   Service service = Service();
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await Service().loginUser(context,
+        email: emailController.text, password: passwordController.text);
+    if (res == "Success") {
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(res)));
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,19 +176,7 @@ class _SignInState extends State<SignIn> {
                                     Align(
                                       alignment: const Alignment(0, 0.78),
                                       child: GestureDetector(
-                                        onTap: () async {
-                                          if (emailController.text.isNotEmpty &&
-                                              passwordController
-                                                  .text.isNotEmpty) {
-                                            service.loginUser(
-                                                context,
-                                                emailController.text,
-                                                passwordController.text);
-                                          } else {
-                                            service.errorBox(context,
-                                                "Field must not be empty. Please provide a valid username, email and password");
-                                          }
-                                        },
+                                        onTap: loginUser,
                                         child: Container(
                                             width: 140,
                                             height: 40,
@@ -183,12 +186,16 @@ class _SignInState extends State<SignIn> {
                                                 color: Colors.white
                                                     .withOpacity(0.5)),
                                             child: Center(
-                                              child: Text('Login',
-                                                  style: GoogleFonts.inter(
-                                                      color:
-                                                          const Color.fromRGBO(
+                                              child: _isLoading
+                                                  ? const CircularProgressIndicator(
+                                                      color: Color.fromRGBO(
+                                                          255, 255, 255, 1))
+                                                  : Text('Login',
+                                                      style: GoogleFonts.inter(
+                                                          color: const Color
+                                                                  .fromRGBO(
                                                               255, 255, 255, 1),
-                                                      fontSize: 15)),
+                                                          fontSize: 15)),
                                             )),
                                       ),
                                     ),

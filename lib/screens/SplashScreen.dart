@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:trivial_trivia/screens/GameModesScreen.dart';
 import 'package:trivial_trivia/screens/StartingScreen.dart';
+import 'package:trivial_trivia/services/auth.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -8,8 +10,15 @@ class SplashScreen extends StatelessWidget {
   void navigateToStartingScreen(BuildContext context) {
     Timer(
         const Duration(seconds: 3),
-        () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => StartingScreen())));
+        () => {
+          if(Service.isUserLoggedIn()){
+            Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => GameModesScreen()))
+        }else{
+            Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => StartingScreen()))
+          }
+        });
   }
 
   @override

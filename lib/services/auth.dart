@@ -1,50 +1,142 @@
+//import 'dart:html';
+import 'dart:typed_data';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:trivial_trivia/models/user.dart' as model;
+import 'package:trivial_trivia/services/storage_methods.dart';
 
 class Service {
-  final auth = FirebaseAuth.instance;
-  static final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void registerUser(context, username, email, password) async {
-    try {
-      await auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {
-                if (value.user != null)
-                  {
-                    _db.collection('users').doc(value.user?.uid).set({
-                      'id': value.user?.uid,
-                      'username': username,
-                      'email': value.user?.email
-                    }),
-                    Navigator.pushNamed(context, '/main')
-                  }
-                else
-                  {throw Error()}
-              });
-    } catch (e) {
-      errorBox(context, e);
-    }
+  Future<model.User> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+
+    DocumentSnapshot snap =
+        await _firestore.collection('users').doc(currentUser.uid).get();
+
+    return model.User.fromSnap(snap);
   }
 
-  void loginUser(context, email, password) async {
+  Future<String> registerUser(
+    context, {
+    required String email,
+    required String username,
+    required String password,
+    required Uint8List file,
+  }) async {
+    String res = "Error";
     try {
-      await auth
-          .signInWithEmailAndPassword(email: email.trim(), password: password)
-          .then((value) => {
-                Navigator.pushNamed(context, '/main')
-              });
+      if (username.isNotEmpty ||
+          email.isNotEmpty ||
+          password.isNotEmpty ||
+          file != null) {
+        UserCredential cred = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+
+        String photoURL =
+            await StorageMethods().uploadImageToStorage('profilePics', file);
+
+        model.User user = model.User(
+          id: cred.user!.uid,
+          username: username,
+          email: email,
+          followers: [],
+          following: [],
+          photoURL: photoURL,
+        );
+
+        await _firestore
+            .collection('users')
+            .doc(cred.user!.uid)
+            .set(user.toJason());
+        res = "Success";
+        Navigator.pushNamed(context, '/main');
+      }
     } catch (e) {
-      errorBox(context, e);
+      res = e.toString();
     }
+    return res;
   }
 
- void signOut(context) async {
+  Future<String> loginUser(
+    context, {
+    required String email,
+    required String password,
+  }) async {
+    String res = "Error";
     try {
-      await auth.signOut().then((value) => {
-            Navigator.pushNamed(context, '/starting')
-          });
+      if (email.isNotEmpty || password.isNotEmpty) {
+        await _auth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((value) => {Navigator.pushNamed(context, '/main')});
+        res = "Success";
+      } else {
+        res = "Please enter all the fields";
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  Future<String> updateUserProfile(
+    context, {
+    required String username,
+    required Uint8List? profilePic,
+  }) async {
+    User currentUser = _auth.currentUser!;
+    String res = "Error";
+    try {
+      if (username.isNotEmpty || profilePic!.isEmpty) {
+        await _firestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .update({'username': username}).then(
+                (value) => {Navigator.pushNamed(context, '/profile')});
+        res = "Success";
+      }
+      if (username.isEmpty || profilePic!.isNotEmpty) {
+        String photoURL = await StorageMethods()
+            .uploadImageToStorage('profilePics', profilePic!);
+        await _firestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .update({'photoURL': photoURL}).then(
+                (value) => {Navigator.pushNamed(context, '/profile')});
+        res = "Success";
+      }
+      if (username.isNotEmpty || profilePic.isNotEmpty) {
+        String photoURL = await StorageMethods()
+            .uploadImageToStorage('profilePics', profilePic);
+        await _firestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .update({'photoURL': photoURL}).then(
+                (value) => {Navigator.pushNamed(context, '/profile')});
+        await _firestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .update({'username': username}).then(
+                (value) => {Navigator.pushNamed(context, '/profile')});
+        res = "Success";
+      } else {
+        res = "Please enter something to update";
+      }
+    } catch (e) {
+      res = e.toString();
+    }
+    return res;
+  }
+
+  static void signOut(context) async {
+    try {
+      await FirebaseAuth.instance
+          .signOut()
+          .then((value) => {Navigator.pushNamed(context, '/starting')});
     } catch (e) {
       errorBox(context, e);
     }
@@ -52,38 +144,48 @@ class Service {
 
   void addPoints(context, int points) async {
     try {
-      await _db.collection('users').doc(auth.currentUser!.uid).update({'points':points});
+      await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .update({'points': points});
     } catch (e) {
       errorBox(context, e);
     }
   }
 
- Future<int> getPoints(context) async{
-      try {
-        DocumentSnapshot d = await _db.collection('users')
-            .doc(auth.currentUser!.uid)
-            .get();
-        return d.get("points");
-      }catch (e) {
-        errorBox(context, e);
-        return 0;
-      }
+  Future<int> getPoints(context) async {
+    try {
+      DocumentSnapshot d = await _firestore
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .get();
+      return d.get("points");
+    } catch (e) {
+      errorBox(context, e);
+      return 0;
+    }
   }
 
-  Future<List<List<String>>> getLeaderboard() async{
+  Future<List<List<String>>> getLeaderboard() async {
     List<List<String>> playerList = List.empty(growable: true);
-    await _db.collection('users').orderBy('points',descending: false).get().then((QuerySnapshot q) {
+    await _firestore
+        .collection('users')
+        .orderBy('points', descending: true)
+        .get()
+        .then((QuerySnapshot q) {
       for (var d in q.docs) {
-        playerList.add([d.get("username"),d.get("points").toString(),d.get("photoURL")]);
+        playerList.add(
+            [d.get("username"), d.get("points").toString(), d.get("photoURL")]);
       }
     });
     return playerList;
   }
 
+  static bool isUserLoggedIn(){
+    return FirebaseAuth.instance.currentUser != null;
+  }
 
-  
-
-  void errorBox(context, e) {
+  static void errorBox(context, e) {
     showDialog(
         context: context,
         builder: (context) {
@@ -94,4 +196,3 @@ class Service {
         });
   }
 }
-

@@ -201,138 +201,144 @@ class TriviaQuestionScreen extends HookWidget{
 
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
-    body:Stack(
-      children: [
-        Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/Background3.png"),
-              fit: BoxFit.fill,
-            ),
-          ),
+    return WillPopScope(
+      onWillPop: () async{
+        GameManager.endGameEarly(context);
+        return true;
+      },
+      child: Scaffold(
+        body:Stack(
+            children: [
+              Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/Background3.png"),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
 
-          child: Stack(
-            children: [ 
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: SafeArea(
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                color: Color.fromRGBO(255, 255, 255, 1)),
-                            onPressed: () => GameManager.endGameEarly(context),
+                  child: Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: SafeArea(
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                      icon: const FaIcon(FontAwesomeIcons.chevronLeft,
+                                          color: Color.fromRGBO(255, 255, 255, 1)),
+                                      onPressed: () => GameManager.endGameEarly(context),
+                                    ),
+                                    Text('Back',
+                                        style: GoogleFonts.inter(
+                                          color: const Color.fromRGBO(255, 255, 255, 1),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle: FontStyle.italic,
+                                        )),
+                                    SizedBox(
+                                      width: size.width * 0.63,
+                                    ),
+                                    getCountdown(context),
+                                  ],
+                                )),
                           ),
-                          Text('Back',
-                              style: GoogleFonts.inter(
-                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.italic,
-                              )),
-                          SizedBox(
-                            width: size.width * 0.63,
-                          ),
-                          getCountdown(context),
-                        ],
-                      )),
-                ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
+                            child:
+                            Column(
+                              children: [
+
+                                SafeArea(
+                                  child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Question " + questionNumber.value.toString(),
+                                          style: TextStyle(
+                                              color: Colors.grey[200],
+                                              fontSize: 35.0,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                        )
+                                      ]
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                                  child: Container(
+                                    margin: EdgeInsets.symmetric(vertical: 20),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      child: LinearProgressIndicator(
+                                        value: remainingQuestionCount.value,
+                                        minHeight: 15.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                Text(
+                                  questionState.value,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: questionFontSize.value
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+
+                                for(int i = 0; i < 4; i++)
+                                  optionStateList[i].value,
+                                const SizedBox(
+                                  height: 30.0,
+                                ),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF86C9E7)),
+                                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(18.0),
+                                          )
+                                      )
+                                  ),
+
+                                  //change navigation
+                                  onPressed: (){
+                                    if(isOptionSelected){
+                                      resetOptionColors();
+                                      displayNextQuestion(context);
+                                    }else{
+                                      displayCorrectOption(size.height*0.05);
+                                    }
+
+                                  },
+
+                                  child: const Padding(
+                                    padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
+                                    child:Text(
+                                      "NEXT",
+                                      style: TextStyle(
+
+                                          fontSize: 16.0
+                                      ),
+                                    ),
+                                  ),
+
+                                ),
+                              ],
+                            )),
+                      ] )
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
-                child:
-                Column(
-                children: [
-
-                  SafeArea(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Question " + questionNumber.value.toString(),
-                        style: TextStyle(
-                          color: Colors.grey[200],
-                          fontSize: 35.0,
-                          fontWeight: FontWeight.bold
-                        ),
-                      )
-                    ]
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        child: LinearProgressIndicator(
-                          value: remainingQuestionCount.value,
-                          minHeight: 15.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                      questionState.value,
-                      style: TextStyle(
-                        color: Colors.white,
-                          fontSize: questionFontSize.value
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-
-                  for(int i = 0; i < 4; i++)
-                    optionStateList[i].value,
-                  const SizedBox(
-                    height: 30.0,
-                  ),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF86C9E7)),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                            )
-                        )
-                    ),
-
-                    //change navigation 
-                    onPressed: (){
-                      if(isOptionSelected){
-                        resetOptionColors();
-                        displayNextQuestion(context);
-                      }else{
-                        displayCorrectOption(size.height*0.05);
-                      }
-
-                      },
-              
-                    child: const Padding(
-                      padding: EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-                      child:Text(
-                        "NEXT",
-                        style: TextStyle(
-              
-                            fontSize: 16.0
-                        ),
-                      ),
-                    ),
-              
-                  ),
-                    ],
-                )),
-             ] )
-          ),
-      ]),
-      );
+            ]),
+      ),
+    );
 
   }
 

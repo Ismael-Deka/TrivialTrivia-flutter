@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:trivial_trivia/services/auth.dart';
 
 class StartingScreen extends StatelessWidget {
   const StartingScreen({Key? key}) : super(key: key);
@@ -22,6 +21,7 @@ class StartingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size size = mediaQueryData.size;
+
     return Scaffold(
       body: Stack(
         children: [

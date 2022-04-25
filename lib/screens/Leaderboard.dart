@@ -12,6 +12,7 @@ class Leaderboard extends HookWidget {
   List<List<String>> playerLeaderboard = List.empty(growable: true);
   late List<ValueNotifier> userNameList;
   late List<ValueNotifier> pointList;
+  late List<ValueNotifier> pictureList;
 
   Service service = Service();
 
@@ -21,6 +22,7 @@ class Leaderboard extends HookWidget {
     for(int i = 0; i < playerLeaderboard.length; i++){
       userNameList[i].value = playerLeaderboard[i][0];
       pointList[i].value = playerLeaderboard[i][1];
+      pictureList[i].value = playerLeaderboard[i][2];
     }
   }
   @override
@@ -28,13 +30,11 @@ class Leaderboard extends HookWidget {
 
     userNameList = List.generate(20, (index) => useState(""));
     pointList = List.generate(20, (index) => useState(""));
-
+    pictureList = List.generate(20, (index) => useState(""));
     loadLeaderboard();
 
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size size = mediaQueryData.size;
-    var bottomPadding = mediaQueryData.padding.bottom;
-
 
     return Scaffold(
         body: Container(
@@ -112,7 +112,7 @@ class Leaderboard extends HookWidget {
                       padding: EdgeInsets.only(top: size.height*0.35,),
                       child:  Column(
                         children: [
-                          Container(
+                          SizedBox(
                               width: 303,
                               height: 200,
 
@@ -124,7 +124,7 @@ class Leaderboard extends HookWidget {
                                         child: Container(
                                             width: 85,
                                             height: 85,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color : Color.fromRGBO(222, 245, 255, 1),
                                               borderRadius : BorderRadius.all(Radius.elliptical(85, 85)),
                                             )
@@ -135,7 +135,7 @@ class Leaderboard extends HookWidget {
                                         child: Container(
                                             width: 80,
                                             height: 80,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color : Color.fromRGBO(222, 245, 255, 1),
                                               borderRadius : BorderRadius.all(Radius.elliptical(80, 80)),
                                             )
@@ -146,7 +146,7 @@ class Leaderboard extends HookWidget {
                                         child: Container(
                                             width: 80,
                                             height: 80,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color : Color.fromRGBO(222, 245, 255, 1),
                                               borderRadius : BorderRadius.all(Radius.elliptical(80, 80)),
                                             )
@@ -157,12 +157,12 @@ class Leaderboard extends HookWidget {
                                         child: Container(
                                             width: 75,
                                             height: 75,
-                                            decoration: const BoxDecoration(
+                                            decoration:  BoxDecoration(
                                               image : DecorationImage(
-                                                  image: AssetImage('assets/pfp.png'),
-                                                  fit: BoxFit.fitWidth
+                                                  image: NetworkImage(pictureList[0].value),
+                                                  fit: BoxFit.cover
                                               ),
-                                              borderRadius : BorderRadius.all(Radius.elliptical(75, 75)),
+                                              borderRadius : const BorderRadius.all(Radius.elliptical(75, 75)),
                                             )
                                         )
                                     ),Positioned(
@@ -171,12 +171,12 @@ class Leaderboard extends HookWidget {
                                         child: Container(
                                             width: 70,
                                             height: 70,
-                                            decoration: const BoxDecoration(
+                                            decoration:  BoxDecoration(
                                               image : DecorationImage(
-                                                  image: AssetImage('assets/pfp.png'),
-                                                  fit: BoxFit.fitWidth
+                                                  image: NetworkImage(pictureList[1].value),
+                                                  fit: BoxFit.cover
                                               ),
-                                              borderRadius : BorderRadius.all(Radius.elliptical(70, 70)),
+                                              borderRadius : const BorderRadius.all(Radius.elliptical(70, 70)),
                                             )
                                         )
                                     ),Positioned(
@@ -185,12 +185,12 @@ class Leaderboard extends HookWidget {
                                         child: Container(
                                             width: 70,
                                             height: 70,
-                                            decoration: const BoxDecoration(
+                                            decoration: BoxDecoration(
                                               image : DecorationImage(
-                                                  image: AssetImage('assets/pfp.png'),
-                                                  fit: BoxFit.fitWidth
+                                                  image: NetworkImage(pictureList[2].value),
+                                                  fit: BoxFit.cover
                                               ),
-                                              borderRadius : BorderRadius.all(Radius.elliptical(70, 70)),
+                                              borderRadius : const BorderRadius.all(Radius.elliptical(70, 70)),
                                             )
                                         )
                                     ),const Positioned(
@@ -298,7 +298,7 @@ class Leaderboard extends HookWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left:size.width*0.12),
-                            child: Container(
+                            child: SizedBox(
                                 width: size.width,
                                 height: size.height-((size.height*0.35)+200),
 
@@ -310,7 +310,7 @@ class Leaderboard extends HookWidget {
                                             children: [
                                               Text(
                                                 (index+1).toString(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontFamily: "Inter",
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 20.0,
@@ -318,7 +318,7 @@ class Leaderboard extends HookWidget {
 
                                                 ),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                   width:5.0
                                               ),
                                               Container(
@@ -337,47 +337,69 @@ class Leaderboard extends HookWidget {
                                                         colors: [Color.fromRGBO(161, 226, 255, 1),Color.fromRGBO(222, 245, 255, 1)]
                                                     ),
                                                   ),
-                                                  child:Row(
+                                                  child:Stack(
                                                     children: [
-                                                      SizedBox(
-                                                        width: 5.0,
-                                                      ),
-                                                      Container(
-                                                          width: 50,
-                                                          height: 47,
-                                                          decoration: const BoxDecoration(
-                                                            image : DecorationImage(
-                                                                image: AssetImage('assets/pfp.png'),
-                                                                fit: BoxFit.fitWidth
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(top: 5.0),
+                                                        child:Row(
+                                                          children: [
+                                                            const SizedBox(
+                                                              width: 5.0,
                                                             ),
-                                                            borderRadius : BorderRadius.all(Radius.elliptical(50, 47)),
-                                                          )
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Text(
-                                                        userNameList[index].value,
-                                                        style: const TextStyle(
-                                                            fontSize: 10.0,
-                                                            fontWeight: FontWeight.w700,
-                                                            fontFamily: "Inter",
-                                                            color: Colors.grey
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 10,
-                                                      ),
+                                                            Container(
+                                                                width: 50,
+                                                                height: 47,
+                                                                decoration: BoxDecoration(
+                                                                  image : DecorationImage(
+                                                                      image: NetworkImage(pictureList[index].value),
+                                                                      fit: BoxFit.cover
+                                                                  ),
+                                                                  borderRadius : const BorderRadius.all(Radius.elliptical(50, 47)),
+                                                                )
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Text(
+                                                              userNameList[index].value,
+                                                              style: const TextStyle(
+                                                                  fontSize: 10.0,
+                                                                  fontWeight: FontWeight.w700,
+                                                                  fontFamily: "Inter",
+                                                                  color: Colors.grey
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 50,
+                                                            ),
 
-                                                      Text(
-                                                        pointList[index].value+" points",
-                                                        textDirection: TextDirection.rtl,
-                                                        style: const TextStyle(
-                                                            fontSize: 10.0,
-                                                            fontWeight: FontWeight.w700,
-                                                            fontFamily: "Inter",
-                                                            color: Colors.grey
+
+
+                                                          ],
                                                         ),
+                                                      ),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 5.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.end,
+                                                              children: [
+                                                                Text(
+                                                                  pointList[index].value+" points",
+                                                                  style: const TextStyle(
+                                                                      fontSize: 10.0,
+                                                                      fontWeight: FontWeight.w700,
+                                                                      fontFamily: "Inter",
+                                                                      color: Colors.grey
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            )
+                                                          ],
+                                                        )
+
                                                       )
 
                                                     ],
@@ -385,7 +407,7 @@ class Leaderboard extends HookWidget {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 10.0,
                                           )
                                         ],
@@ -406,8 +428,6 @@ class Leaderboard extends HookWidget {
               ],
             )));
   }
-
-
 }
 
 

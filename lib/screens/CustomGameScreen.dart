@@ -47,7 +47,7 @@ class CustomGame extends HookWidget {
                 TriviaUtils.getCategoryName(selectedDifficultyIndex),
                 numQuestions.value,
                 (minutes*60)+seconds)
-            , context);
+            , context,false);
       }else{
         GameManager.startGame(
             GameMode(
@@ -55,7 +55,7 @@ class CustomGame extends HookWidget {
                 TriviaUtils.getCategoryName(selectedDifficultyIndex),
                 numQuestions.value,
                 -1),
-            context);
+            context,false);
       }
     }
   }

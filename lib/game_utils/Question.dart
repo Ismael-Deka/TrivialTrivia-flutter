@@ -8,17 +8,20 @@ class Question {
   String correctAnswer = "";
   List<String> incorrectAnswers = List.empty();
 
-  Question([String newCategory = "", String newQuestionType = "", String newDifficulty = "", String newQuestion = "",
-      String newCorrectAnswer = "", newIncorrectAnswers]){
+  Question(
+      [String newCategory = "",
+      String newQuestionType = "",
+      String newDifficulty = "",
+      String newQuestion = "",
+      String newCorrectAnswer = "",
+      newIncorrectAnswers]) {
     category = newCategory;
     questionType = newQuestionType;
     difficulty = newDifficulty;
     question = parseFragment(newQuestion).text!;
     correctAnswer = newCorrectAnswer;
-    if(newIncorrectAnswers != null) {
+    if (newIncorrectAnswers != null) {
       incorrectAnswers = newIncorrectAnswers;
     }
-
   }
-
 }

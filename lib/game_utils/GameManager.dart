@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:trivial_trivia/game_utils/ApiCall.dart';
 import 'package:trivial_trivia/game_utils/GameMode.dart';
@@ -54,12 +55,67 @@ class GameManager {
 
   }
 
+  static Future<void> postDailyChallengeTime(List<Question> list, int limit,context) async {
+    List<Map> questionsForDatabase = List.empty(growable: true);
+    List<Question> questionsFromDatabase = List.empty(growable: true);
+    DocumentSnapshot d = await FirebaseFirestore.instance
+        .collection('daily_challenge')
+        .doc('daily_challenge')
+        .get();
+    int timestamp = d.get('timestamp');
+    if(DateTime.now().millisecondsSinceEpoch/1000 - timestamp   > 86400){
+      for(Question q in list){
+        questionsForDatabase.add({ 'category':q.category,
+          'correct_answer':q.correctAnswer,
+          'difficulty':q.difficulty,
+          'type':q.questionType,
+          'question':q.question,
+          'incorrect_answers':q.incorrectAnswers});
+      }
+      FirebaseFirestore.instance.collection('daily_challenge')
+        .doc('daily_challenge')
+        .update({'questions': questionsForDatabase});
+      FirebaseFirestore.instance.collection('daily_challenge')
+          .doc('daily_challenge')
+          .update({'time_limit': limit});
+      FirebaseFirestore.instance.collection('daily_challenge')
+          .doc('daily_challenge')
+          .update({'timestamp': DateTime.now().millisecondsSinceEpoch});
+    }else{
+      timeLimit = d.get("time_limit");
+      for(Map map in d.get("questions")){
+        questionsFromDatabase.add(
+          Question(
+            map['category'],
+            map['type'],
+            map['difficulty'],
+            map['question'],
+            map['correct_answer'],
+            List<String>.generate(map['incorrect_answers'].length, (index) => map['incorrect_answers'][index])
 
-  static void startGame(GameMode gameMode, BuildContext context) async {
-    points = await service.getPoints(context);
-    questionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
-    timeLimit = gameMode.mTimeLimit;
+          )
+        );
+      }
+      questionList = questionsFromDatabase;
+    }
     Navigator.pushNamed(context, '/trivia');
+  }
+
+
+  static void startGame(GameMode gameMode, BuildContext context, bool isDailyChallenge) async {
+    if(Service.isUserLoggedIn()) {
+      points = await service.getPoints(context);
+    }
+
+    questionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
+
+    timeLimit = gameMode.mTimeLimit;
+    if(isDailyChallenge){
+      postDailyChallengeTime(questionList,timeLimit,context);
+    }else{
+      Navigator.pushNamed(context, '/trivia');
+    }
+
 
   }
 
@@ -111,7 +167,9 @@ class GameManager {
         },
       );
     }
-      //service.addPoints(context, points+pointsGained);
+      if(Service.isUserLoggedIn()) {
+        service.addPoints(context, points+pointsGained);
+      }
       resetGameManager();
     }
   }

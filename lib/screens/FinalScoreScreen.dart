@@ -14,7 +14,7 @@ class FinalScore extends StatelessWidget {
 
     var totalCorrect = arguments['numCorrect'];
     var numQuestions = arguments['total'];
-    var averageTime = "Average time per question: " + (arguments['time_completed']==null?"":arguments['time_completed'] );
+    var averageTime =  arguments['time_completed']==null?"":"Time Completed: "+arguments['time_completed'] ;
     var pointsGained = "+" + arguments['points_gained'].toString();
 
 
@@ -40,28 +40,6 @@ class FinalScore extends StatelessWidget {
                       SizedBox(
                         width: size.width * 0.83,
                       ),
-                      GestureDetector(
-                        onTap: () => Navigator.pushNamed(context, '/profile'),
-                        child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color.fromRGBO(162, 227, 255, 1),
-                            ),
-                            child: Center(
-                              child: Container(
-                                width: 35,
-                                height: 35,
-                                decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      image: AssetImage('assets/Ellipse 425.png'),
-                                      fit: BoxFit.cover,
-                                    )),
-                              ),
-                            )),
-                      )
                     ],
                   )),
             ),
@@ -99,7 +77,7 @@ class FinalScore extends StatelessWidget {
                     child: Center(
                         child: Container(
                           width: size.width * 0.85,
-                          height: size.height * 0.15,
+                          height: size.height * 0.25,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: const Color.fromRGBO(249, 240, 240, 1)
@@ -109,11 +87,17 @@ class FinalScore extends StatelessWidget {
                             //update current rank
                               child: Column(
                                 children: [
-                                  Text("Final Score: $totalCorrect/$numQuestions",
+                                  const SizedBox(
+                                    height: 25.0,
+                                  ),
+                                  Text("You got $totalCorrect questions correct out of $numQuestions",
                                       style: GoogleFonts.inter(
                                           color: const Color.fromRGBO(150, 134, 134, 1),
-                                          fontSize: 25,
+                                          fontSize: 15,
                                           fontWeight: FontWeight.w700)),
+                                  const SizedBox(
+                                    height: 25.0,
+                                  ),
                                   Text(averageTime,
                                       style: GoogleFonts.inter(
                                           color: const Color.fromRGBO(150, 134, 134, 1),
