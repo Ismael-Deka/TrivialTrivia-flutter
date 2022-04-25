@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:trivial_trivia/game_utils/GameMode.dart';
 import 'package:trivial_trivia/game_utils/Question.dart';
 
@@ -29,12 +31,15 @@ class TriviaUtils{
    static const int FIFTEEN_QUESTIONS = 2;
    static const int TWENTY_FIVE_QUESTIONS = 3;
    static const int FIFTY_QUESTIONS = 4;
+   static const int DAILY_CHALLENGE = 5;
 
    static const int MULTIPLE_CHOICE = 0;
    static const int TRUE_FALSE = 1;
 
    static const int ANY_CATEGORY = 0;
    static const int MAX_NUM_QUESTIONS = 50;
+
+   static const int NO_TIME_LIMIT = -1;
 
 
   static int getCategoryId(String category){
@@ -43,7 +48,7 @@ class TriviaUtils{
     }
     if(mCategoryList.contains(category)){
       int categoryIndex = mCategoryList.indexOf(category);
-      return categoryIndex + 9;
+      return categoryIndex + 8;
     }else {
       return -1;
     }
@@ -92,18 +97,21 @@ class TriviaUtils{
   }
 
   static GameMode getGameArgs(int gameType){
+    int questionNumChallenge = 5 + Random().nextInt(50 - 5);
     switch (gameType){
+      case DAILY_CHALLENGE:
+        return GameMode(mGameTypeList[Random().nextInt(mGameTypeList.length)],mDifficultyList[2],questionNumChallenge,questionNumChallenge*2);
       case THIRTY_SEC_RELAY:
         return GameMode(mGameTypeList[ANY_CATEGORY],"",MAX_NUM_QUESTIONS,30);
 
       case FIFTEEN_QUESTIONS:
-        return GameMode(mGameTypeList[ANY_CATEGORY],"", 15,-1);
+        return GameMode(mGameTypeList[ANY_CATEGORY],"", 15,NO_TIME_LIMIT);
 
       case TWENTY_FIVE_QUESTIONS:
-        return GameMode(mGameTypeList[ANY_CATEGORY],"", 25,-1);
+        return GameMode(mGameTypeList[ANY_CATEGORY],"", 25,NO_TIME_LIMIT);
 
       case FIFTY_QUESTIONS:
-        return GameMode(mGameTypeList[ANY_CATEGORY],"",MAX_NUM_QUESTIONS,-1);
+        return GameMode(mGameTypeList[ANY_CATEGORY],"",MAX_NUM_QUESTIONS,NO_TIME_LIMIT);
     }
     return GameMode("", "", -1, -1);
   }

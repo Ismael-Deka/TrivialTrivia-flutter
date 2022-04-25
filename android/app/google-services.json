@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "747097524121",
+    "project_id": "trivialtrivia-flutter",
+    "storage_bucket": "trivialtrivia-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747097524121:android:d9ef4bfadafa08e11b7508",
+        "android_client_info": {
+          "package_name": "com.example.trivial_trivia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "747097524121-lgjoau9hnmdta3so8n3tl8favk2uqv5g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsMJrR0tn1-2M-nr3UCOSgT4jmFOM17Vo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "747097524121-lgjoau9hnmdta3so8n3tl8favk2uqv5g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
