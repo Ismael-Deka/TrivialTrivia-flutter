@@ -16,6 +16,7 @@ class GameManager {
   static int correctAnswerCount = 0;
   static int points = 0;
   static int pointsGained = 0;
+  static Stopwatch timer = Stopwatch();
   static Service service = Service();
 
 
@@ -55,16 +56,19 @@ class GameManager {
 
   }
 
-  static Future<void> postDailyChallengeTime(List<Question> list, int limit,context) async {
+  static Future<void> postDailyChallenge( GameMode gameMode, int limit,context) async {
+
     List<Map> questionsForDatabase = List.empty(growable: true);
-    List<Question> questionsFromDatabase = List.empty(growable: true);
     DocumentSnapshot d = await FirebaseFirestore.instance
         .collection('daily_challenge')
         .doc('daily_challenge')
         .get();
     int timestamp = d.get('timestamp');
-    if(DateTime.now().millisecondsSinceEpoch/1000 - timestamp   > 86400){
-      for(Question q in list){
+    //print(DateTime.now().millisecondsSinceEpoch - timestamp);
+    if(DateTime.now().millisecondsSinceEpoch/1000 - timestamp/1000   > 86400){
+
+      questionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
+      for(Question q in questionList){
         questionsForDatabase.add({ 'category':q.category,
           'correct_answer':q.correctAnswer,
           'difficulty':q.difficulty,
@@ -84,7 +88,7 @@ class GameManager {
     }else{
       timeLimit = d.get("time_limit");
       for(Map map in d.get("questions")){
-        questionsFromDatabase.add(
+        questionList.add(
           Question(
             map['category'],
             map['type'],
@@ -96,8 +100,8 @@ class GameManager {
           )
         );
       }
-      questionList = questionsFromDatabase;
     }
+    timer.start();
     Navigator.pushNamed(context, '/trivia');
   }
 
@@ -106,13 +110,12 @@ class GameManager {
     if(Service.isUserLoggedIn()) {
       points = await service.getPoints(context);
     }
-
-    questionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
-
     timeLimit = gameMode.mTimeLimit;
     if(isDailyChallenge){
-      postDailyChallengeTime(questionList,timeLimit,context);
+      postDailyChallenge(gameMode,timeLimit,context);
     }else{
+      questionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
+      timer.start();
       Navigator.pushNamed(context, '/trivia');
     }
 
@@ -126,6 +129,8 @@ class GameManager {
     correctAnswerCount = 0;
     points = 0;
     pointsGained = 0;
+    timer.stop();
+    timer.reset();
   }
   static void endGameEarly(BuildContext context) {
     Navigator.pop(context);
@@ -147,27 +152,16 @@ class GameManager {
 
 
   static void endGame(BuildContext context) {
-    if(timeLimit > -1) {
-      Navigator.pushReplacementNamed(
-        context, '/finalscore',
-        arguments: {
-          'numCorrect': correctAnswerCount,
-          'total': questionList.length,
-          'time_completed': (timeLimit - timeRemaining).toStringAsFixed(3),
-          'points_gained':pointsGained
-        },
-      );
-    }else{
-      Navigator.pushReplacementNamed(
-        context, '/finalscore',
-        arguments: {
-          'numCorrect': correctAnswerCount,
-          'total': questionList.length,
-          'points_gained':pointsGained
-        },
-      );
-    }
-      if(Service.isUserLoggedIn()) {
+    Navigator.pushReplacementNamed(
+      context, '/finalscore',
+      arguments: {
+        'numCorrect': correctAnswerCount,
+        'total': questionList.length,
+        'time_completed': (timer.elapsedMilliseconds.toDouble()/1000.0).toString(),
+        'points_gained':pointsGained
+      },
+    );
+    if(Service.isUserLoggedIn()) {
         service.addPoints(context, points+pointsGained);
       }
       resetGameManager();

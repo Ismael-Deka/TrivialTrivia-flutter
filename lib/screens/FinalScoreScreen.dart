@@ -14,7 +14,7 @@ class FinalScore extends StatelessWidget {
 
     var totalCorrect = arguments['numCorrect'];
     var numQuestions = arguments['total'];
-    var averageTime =  arguments['time_completed']==null?"":"Time Completed: "+arguments['time_completed'] ;
+    var averageTime =  arguments['time_completed']==null?"":"Time Completed: "+arguments['time_completed']+" seconds";
     var pointsGained = "+" + arguments['points_gained'].toString();
 
 
