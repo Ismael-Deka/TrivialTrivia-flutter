@@ -64,7 +64,6 @@ class GameManager {
         .doc('daily_challenge')
         .get();
     int timestamp = d.get('timestamp');
-    //print(DateTime.now().millisecondsSinceEpoch - timestamp);
     if(DateTime.now().millisecondsSinceEpoch/1000 - timestamp/1000   > 86400){
 
       questionList = await QuestionLoader.loadQuestions(ApiCall(gameMode));
