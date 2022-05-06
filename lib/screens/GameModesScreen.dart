@@ -94,6 +94,9 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FontStyle.italic,
                                     )),
+                                SizedBox(
+                                  width: 20.0,
+                                )
                               ],
                             ),
                           ),

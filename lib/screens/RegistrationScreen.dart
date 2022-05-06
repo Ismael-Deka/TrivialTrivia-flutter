@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -31,11 +32,16 @@ class _RegisterState extends State<Register> {
     });
   }
 
+  void setDefaultImage() async{
+    _image = (await rootBundle.load("assets/Ellipse 425.png")).buffer.asUint8List();
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size size = mediaQueryData.size;
     var bottomPadding = mediaQueryData.padding.bottom;
+    setDefaultImage();
 
     return Scaffold(
         resizeToAvoidBottomInset: false,

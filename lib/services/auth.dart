@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:trivial_trivia/models/user.dart' as model;
@@ -57,7 +58,7 @@ class Service {
         Navigator.pushNamed(context, '/main');
       }
     } catch (e) {
-      res = e.toString();
+      errorBox(context,e);
     }
     return res;
   }
@@ -78,7 +79,7 @@ class Service {
         res = "Please enter all the fields";
       }
     } catch (e) {
-      res = e.toString();
+      errorBox(context,e.toString());
     }
     return res;
   }
@@ -127,7 +128,7 @@ class Service {
         res = "Please enter something to update";
       }
     } catch (e) {
-      res = e.toString();
+      errorBox(context,e.toString());
     }
     return res;
   }
@@ -149,7 +150,9 @@ class Service {
           .doc(_auth.currentUser!.uid)
           .update({'points': points});
     } catch (e) {
-      errorBox(context, e);
+      if (kDebugMode) {
+        print(e.toString());
+      }
     }
   }
 
@@ -161,7 +164,10 @@ class Service {
           .get();
       return d.get("points");
     } catch (e) {
-      errorBox(context, e);
+      addPoints(context, 0);
+      if (kDebugMode) {
+        print(e.toString());
+      }
       return 0;
     }
   }

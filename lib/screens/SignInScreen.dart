@@ -22,7 +22,7 @@ class _SignInState extends State<SignIn> {
       _isLoading = true;
     });
     String res = await Service().loginUser(context,
-        email: emailController.text, password: passwordController.text);
+        email: emailController.text.trim(), password: passwordController.text);
     if (res == "Success") {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(res)));
