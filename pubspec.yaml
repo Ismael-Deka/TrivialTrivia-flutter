@@ -12,10 +12,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_sign_in: ^5.2.4
   cupertino_icons: ^1.0.2
   flutter_hooks: ^0.18.2+1
   flutter_svg: ^1.0.3
   google_fonts: ^2.3.1
+  sign_in_button: ^3.0.0
   font_awesome_flutter: ^10.1.0
   wheel_chooser: ^1.0.0
   timer_count_down: ^2.2.1

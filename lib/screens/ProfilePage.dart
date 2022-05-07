@@ -75,6 +75,7 @@ class _ProfileState extends State<Profile> {
         .then((QuerySnapshot q) {
       for (int i = 0; i < q.docs.length; i++) {
         var d = q.docs[i];
+
         if(d.get("id") == FirebaseAuth.instance.currentUser?.uid){
           setState(() {
             rank=i+1;

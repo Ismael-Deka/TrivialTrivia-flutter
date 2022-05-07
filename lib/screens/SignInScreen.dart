@@ -94,76 +94,78 @@ class _SignInState extends State<SignIn> {
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(30)),
-                                child: Stack(
+                                child: Column(
                                   children: <Widget>[
-                                    Align(
-                                        alignment: const Alignment(0, -0.65),
-                                        child: Text('Sign In',
-                                            style: GoogleFonts.inter(
-                                              color: const Color.fromRGBO(
-                                                  255, 255, 255, 1),
-                                              fontSize: 35,
-                                              fontWeight: FontWeight.w400,
-                                              fontStyle: FontStyle.italic,
-                                            ))),
-                                    Align(
-                                      alignment: const Alignment(0, -0.20),
-                                      child: SizedBox(
-                                        height: 40,
-                                        width: 250,
-                                        child: TextField(
-                                          controller: emailController,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.only(
-                                                      left: 15, right: 15),
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide.none,
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                              ),
-                                              filled: true,
-                                              hintText: "Email",
-                                              hintStyle: const TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color.fromRGBO(
-                                                      255, 255, 255, 1)),
-                                              fillColor: Colors.white
-                                                  .withOpacity(0.5)),
+                                    SizedBox(
+                                      height: size.height*0.05,
+                                    ),
+                                    Text('Sign In',
+                                      style: GoogleFonts.inter(
+                                        color: const Color.fromRGBO(
+                                            255, 255, 255, 1),
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.w400,
+                                        fontStyle: FontStyle.italic,
+                                      )),
+                                    SizedBox(
+                                      height: size.height*0.02,
+                                    ),
+                                    SizedBox(
+                                  height: 40,
+                                  width: 250,
+                                  child: TextField(
+                                    controller: emailController,
+                                    decoration: InputDecoration(
+                                        contentPadding:
+                                        const EdgeInsets.only(
+                                            left: 15, right: 15),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius:
+                                          BorderRadius.circular(30),
                                         ),
+                                        filled: true,
+                                        hintText: "Email",
+                                        hintStyle: const TextStyle(
+                                            fontSize: 13,
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1)),
+                                        fillColor: Colors.white
+                                            .withOpacity(0.5)),
+                                  ),
+                                ),
+                                    SizedBox(
+                                      height: size.height*0.02,
+                                    ),
+                                    SizedBox(
+                                      height: 40,
+                                      width: 250,
+                                      child: TextField(
+                                        controller: passwordController,
+                                        obscureText: true,
+                                        decoration: InputDecoration(
+                                            contentPadding:
+                                            const EdgeInsets.only(
+                                                left: 15, right: 15),
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide.none,
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                            ),
+                                            filled: true,
+                                            hintText: "Password",
+                                            hintStyle: const TextStyle(
+                                                fontSize: 13,
+                                                color: Color.fromRGBO(
+                                                    255, 255, 255, 1)),
+                                            fillColor: Colors.white
+                                                .withOpacity(0.5)),
                                       ),
                                     ),
-                                    Align(
-                                      alignment: const Alignment(0, 0.26),
-                                      child: SizedBox(
-                                        height: 40,
-                                        width: 250,
-                                        child: TextField(
-                                          controller: passwordController,
-                                          obscureText: true,
-                                          decoration: InputDecoration(
-                                              contentPadding:
-                                                  const EdgeInsets.only(
-                                                      left: 15, right: 15),
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide.none,
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                              ),
-                                              filled: true,
-                                              hintText: "Password",
-                                              hintStyle: const TextStyle(
-                                                  fontSize: 13,
-                                                  color: Color.fromRGBO(
-                                                      255, 255, 255, 1)),
-                                              fillColor: Colors.white
-                                                  .withOpacity(0.5)),
-                                        ),
-                                      ),
-                                    ),
-                                    Align(
-                                        alignment: const Alignment(0.65, 0.43),
-                                        child: GestureDetector(
+                                    Row (
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        GestureDetector(
                                             onTap: () => Navigator.pushNamed(
                                                 context, '/resetpassword'),
                                             child: Text('Forgot Password?',
@@ -172,32 +174,38 @@ class _SignInState extends State<SignIn> {
                                                       255, 255, 255, 1),
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.w600,
-                                                )))),
-                                    Align(
-                                      alignment: const Alignment(0, 0.78),
-                                      child: GestureDetector(
-                                        onTap: loginUser,
-                                        child: Container(
-                                            width: 140,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                color: Colors.white
-                                                    .withOpacity(0.5)),
-                                            child: Center(
-                                              child: _isLoading
-                                                  ? const CircularProgressIndicator(
-                                                      color: Color.fromRGBO(
-                                                          255, 255, 255, 1))
-                                                  : Text('Login',
-                                                      style: GoogleFonts.inter(
-                                                          color: const Color
-                                                                  .fromRGBO(
-                                                              255, 255, 255, 1),
-                                                          fontSize: 15)),
-                                            )),
-                                      ),
+                                                ))),
+                                        SizedBox(
+                                          width: size.width*0.1,
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: size.height*0.02,
+                                    ),
+                                    GestureDetector(
+                                      onTap: loginUser,
+                                      child: Container(
+                                          width: 140,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(30),
+                                              color: Colors.white
+                                                  .withOpacity(0.5)),
+                                          child: Center(
+                                            child: _isLoading
+                                                ? const CircularProgressIndicator(
+                                                color: Color.fromRGBO(
+                                                    255, 255, 255, 1))
+                                                : Text('Login',
+                                                style: GoogleFonts.inter(
+                                                    color: const Color
+                                                        .fromRGBO(
+                                                        255, 255, 255, 1),
+                                                    fontSize: 15)),
+                                          )),
+
                                     ),
                                   ],
                                 )))),
