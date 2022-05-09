@@ -33,6 +33,14 @@ class _SignInState extends State<SignIn> {
     });
   }
 
+  void googleSignIn(BuildContext context) async {
+    await service.loginWithGoogle(context).then(
+            (bool value) {
+          if (value) {
+            Navigator.pushReplacementNamed(context, '/main');
+          }
+        });
+  }
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -222,13 +230,16 @@ class _SignInState extends State<SignIn> {
                                         ),
                                         SignInButton(
                                             Buttons.google,
+
                                             shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(5.0),
                                             ),
-                                            onPressed: (){}
+                                            onPressed: (){
+                                              googleSignIn(context);
+                                            }
                                         ),
                                         SizedBox(
-                                          height: size.height*0.02,
+                                          height: size.height*0.04,
                                         )
                                       ],
                                     )))),

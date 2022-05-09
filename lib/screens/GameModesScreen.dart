@@ -101,7 +101,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: size.width * 0.50,
+                            width: size.width * 0.45,
                           ),
                           Visibility(
                             visible: isUserLoggedIn,

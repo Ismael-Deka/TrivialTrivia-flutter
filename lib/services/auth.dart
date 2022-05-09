@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:trivial_trivia/models/user.dart' as model;
 import 'package:trivial_trivia/services/storage_methods.dart';
 
@@ -82,6 +83,67 @@ class Service {
       errorBox(context,e.toString());
     }
     return res;
+  }
+
+  Future<bool> doesUserExist(String? email) async {
+    bool userExists = false;
+    try {
+      await _firestore
+          .collection('users')
+          .get()
+          .then(
+              (QuerySnapshot q) {
+                for (QueryDocumentSnapshot doc in q.docs) { 
+                  if(doc.get("email") == email){
+                    userExists = true;
+                    break;
+                  }
+                }
+              });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+    return userExists;
+  }
+
+  Future<bool> loginWithGoogle(BuildContext context) async {
+
+    bool isSignedIn = await GoogleSignIn().isSignedIn();
+
+    if(isSignedIn) {
+      await GoogleSignIn().signOut();
+    }
+
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    bool userExist = await doesUserExist(googleUser?.email);
+
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      if(userExist){
+      try {
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        return true;
+      }catch(e){
+        if (kDebugMode) {
+          print(e.toString());
+          return false;
+        }
+      }
+    }else{
+      errorBox(context, "This user isn't registered.");
+      return false;
+    }
+    return false;
   }
 
   Future<String> updateUserProfile(
