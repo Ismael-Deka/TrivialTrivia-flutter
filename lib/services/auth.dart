@@ -23,13 +23,13 @@ class Service {
     return model.User.fromSnap(snap);
   }
 
-  Future<String> registerUser(
-    context, {
-    required String email,
-    required String username,
-    required String password,
-    required Uint8List file,
-  }) async {
+  Future<String> registerWithEmailAndPassword(
+      context, {
+        required String email,
+        required String username,
+        required String password,
+        required Uint8List file,
+      }) async {
     String res = "Error";
     try {
       if (username.isNotEmpty ||
@@ -40,7 +40,7 @@ class Service {
             email: email, password: password);
 
         String photoURL =
-            await StorageMethods().uploadImageToStorage('profilePics', file);
+        await StorageMethods().uploadImageToStorage('profilePics', file);
 
         model.User user = model.User(
           id: cred.user!.uid,
@@ -54,6 +54,42 @@ class Service {
         await _firestore
             .collection('users')
             .doc(cred.user!.uid)
+            .set(user.toJason());
+        res = "Success";
+        Navigator.pushNamed(context, '/main');
+      }
+    } catch (e) {
+      errorBox(context,e);
+    }
+    return res;
+  }
+
+  Future<String> registerWithGoogle(
+      context,
+        String uid,
+        String email,
+        String username,
+        String photoURL,
+  ) async {
+    String res = "Error";
+    try {
+      if (uid.isNotEmpty ||
+          username.isNotEmpty ||
+          email.isNotEmpty ||
+          photoURL.isNotEmpty) {
+
+        model.User user = model.User(
+          id: uid,
+          username: username,
+          email: email,
+          followers: [],
+          following: [],
+          photoURL: photoURL,
+        );
+
+        await _firestore
+            .collection('users')
+            .doc(uid)
             .set(user.toJason());
         res = "Success";
         Navigator.pushNamed(context, '/main');
@@ -121,27 +157,38 @@ class Service {
     bool userExist = await doesUserExist(googleUser?.email);
 
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      if(userExist){
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    if(!userExist){
       try {
         await FirebaseAuth.instance.signInWithCredential(credential);
+        await registerWithGoogle(context,
+            _auth.currentUser!.uid,
+            googleUser!.email,
+            googleUser.displayName!,
+            googleUser.photoUrl!);
         return true;
       }catch(e){
-        if (kDebugMode) {
-          print(e.toString());
-          return false;
-        }
+        errorBox(context, "You must register an account.");
+        return false;
       }
-    }else{
-      errorBox(context, "This user isn't registered.");
-      return false;
+    }
+
+    try {
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      return true;
+    }catch(e){
+      if (kDebugMode) {
+        print(e.toString());
+        return false;
+      }
     }
     return false;
   }

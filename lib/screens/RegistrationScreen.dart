@@ -279,7 +279,7 @@ class _RegisterState extends State<Register> {
                                               child: GestureDetector(
                                                 onTap: () async {
                                                   String res = await Service()
-                                                      .registerUser(
+                                                      .registerWithEmailAndPassword(
                                                           context,
                                                           email: emailController
                                                               .text,

@@ -12,6 +12,7 @@ class User {
   final List followers;
   final List following;
   final String photoURL;
+  final int points;
 
   const User ({
     required this.id,
@@ -20,6 +21,7 @@ class User {
     required this.followers,
     required this.following,
     required this.photoURL,
+    this.points = 0
   });
 
   Map<String, dynamic> toJason() => {
@@ -28,7 +30,8 @@ class User {
     "email": email,
     "followers": followers,
     "following": following,
-    "photoURL" : photoURL
+    "photoURL" : photoURL,
+    "points" : points
   };
 
   static User fromSnap(DocumentSnapshot snap){
@@ -41,6 +44,7 @@ class User {
       followers:snapshot['followers'],
       following:snapshot['following'],
       photoURL: snapshot['photoURL'],
+      points: snapshot['points'],
     );
   }
 }
