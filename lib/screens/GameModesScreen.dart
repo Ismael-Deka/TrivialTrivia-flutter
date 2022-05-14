@@ -196,14 +196,23 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                   TriviaUtils.getGameArgs(
                                       TriviaUtils.DAILY_CHALLENGE),
                                   context,true),
-                              child: const Padding(
-                                padding: EdgeInsets.fromLTRB(50.0, 30.0, 50.0, 30.0),
-                                child: Text(
-                                  "Daily Challenge",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                  TextStyle(color: Colors.white, fontSize: 25.0),
-                                ),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(size.width*0.5, size.height*0.05, size.width*0.5, size.height*0.05),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    heightFactor: 3,
+                                    child: Text(
+                                      "Daily Challenge",
+                                      textAlign: TextAlign.center,
+                                      style:
+                                      TextStyle(color: Colors.white, fontSize: 25.0),
+                                    ),
+                                  )
+
+                                ],
                               ),
                             )),
                         SizedBox(height: size.height / 20),
@@ -243,7 +252,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                       context,false),
                                   child: Padding(
                                     padding:
-                                    EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
+                                    EdgeInsets.fromLTRB(size.width*0.05, 35.0, size.width*0.05, 35.0),
                                     child: Column(
                                       children: const [
                                         Text(
@@ -262,7 +271,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                     ),
                                   ),
                                 )),
-                            SizedBox(width: 60.0),
+                            Spacer(),
                             DecoratedBox(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(colors: [
@@ -380,7 +389,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                     ),
                                   ),
                                 )),
-                            SizedBox(width: 60.0),
+                            Spacer(),
                             DecoratedBox(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(colors: [
@@ -463,14 +472,23 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                   ))),
                               onPressed: () =>
                                   Navigator.pushNamed(context, '/customgame'),
-                              child: const Padding(
-                                padding: EdgeInsets.fromLTRB(95.0, 15.0, 95.0, 15.0),
-                                child: Text(
-                                  "Custom Game",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                  TextStyle(color: Colors.white, fontSize: 15.0),
-                                ),
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(size.width*0.5, 15.0, size.width*0.5, 15.0),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    heightFactor: 3,
+                                    child: Text(
+                                      "Custom Game",
+                                      textAlign: TextAlign.center,
+                                      style:
+                                      TextStyle(color: Colors.white, fontSize: 15.0),
+                                    ),
+                                  )
+
+                                ],
                               ),
                             )),
                       ],

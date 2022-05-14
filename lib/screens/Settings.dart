@@ -26,7 +26,7 @@ class _SettingsState extends State<Settings> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Stack(
+            child: Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
@@ -50,14 +50,14 @@ class _SettingsState extends State<Settings> {
                         )),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 110),
-                  child: Column(
-                    children: [
-                      Container(
-                          width: size.width,
-                          height: size.height * .10,
-                          color: Colors.transparent,
+                Column(
+                  children: [
+                    Container(
+                        width: size.width,
+                        height: size.height * .10,
+                        color: Colors.transparent,
+                        child: GestureDetector(
+                          onTap: () => Navigator.pushNamed(context, '/editprofile'),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,23 +65,25 @@ class _SettingsState extends State<Settings> {
                               Text("Account Settings",
                                   style: GoogleFonts.inter(
                                     color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
+                                    const Color.fromRGBO(255, 255, 255, 1),
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                   )),
-                              SizedBox(width: size.width * .50),
+                              SizedBox(width: size.width * .37),
                               IconButton(
                                 icon: const FaIcon(
                                     FontAwesomeIcons.chevronRight,
                                     color: Color.fromRGBO(255, 255, 255, 1)),
-                                onPressed:() => Navigator.pushNamed(context, '/editprofile'),
+                                onPressed: () {  },
                               ),
                             ],
-                          )),
-                      Container(
-                          width: size.width,
-                          height: size.height * .10,
-                          color: Colors.transparent,
+                          ),
+                        )),
+                    Container(
+                        width: size.width,
+                        height: size.height * .10,
+                        color: Colors.transparent,
+                        child: GestureDetector(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,7 +91,7 @@ class _SettingsState extends State<Settings> {
                               Text("Terms of Service",
                                   style: GoogleFonts.inter(
                                     color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
+                                    const Color.fromRGBO(255, 255, 255, 1),
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                   )),
@@ -101,48 +103,48 @@ class _SettingsState extends State<Settings> {
                                 onPressed: () {},
                               ),
                             ],
-                          )),
-                      Container(
-                          width: size.width,
-                          height: size.height * .10,
-                          color: Colors.transparent,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text("Privacy Policy",
-                                  style: GoogleFonts.inter(
-                                    color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                  )),
-                              SizedBox(width: size.width * .38),
-                              IconButton(
-                                icon: const FaIcon(
-                                    FontAwesomeIcons.chevronRight,
-                                    color: Color.fromRGBO(255, 255, 255, 1)),
-                                onPressed: () {},
-                              ),
-                            ],
-                          )),
-                      
-                      Padding(
-                        padding: const EdgeInsets.all(40.0),
-                        child: GestureDetector(
-                          onTap:()async{
-                            Service.signOut(context);
-                          },
-                          child: Text("Log Out",
-                              style: GoogleFonts.inter(
-                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              )),
-                        ),
+                          ),
+                        )),
+                    Container(
+                        width: size.width,
+                        height: size.height * .10,
+                        color: Colors.transparent,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Privacy Policy",
+                                style: GoogleFonts.inter(
+                                  color:
+                                  const Color.fromRGBO(255, 255, 255, 1),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                            SizedBox(width: size.width * .43),
+                            IconButton(
+                              icon: const FaIcon(
+                                  FontAwesomeIcons.chevronRight,
+                                  color: Color.fromRGBO(255, 255, 255, 1)),
+                              onPressed: () {},
+                            ),
+                          ],
+                        )),
+
+                    Padding(
+                      padding: const EdgeInsets.all(40.0),
+                      child: GestureDetector(
+                        onTap:()async{
+                          Service.signOut(context);
+                        },
+                        child: Text("Log Out",
+                            style: GoogleFonts.inter(
+                              color: const Color.fromRGBO(255, 255, 255, 1),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            )),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               ],
             )));

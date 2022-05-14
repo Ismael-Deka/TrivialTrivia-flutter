@@ -24,7 +24,7 @@ class User {
     this.points = 0
   });
 
-  Map<String, dynamic> toJason() => {
+  Map<String, dynamic> toJson() => {
     "id": id,
     "username": username,
     "email": email,

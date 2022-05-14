@@ -110,20 +110,30 @@ class _ProfileState extends State<Profile> {
                       alignment: Alignment.topLeft,
                       child: Row(
                         children: [
-                          IconButton(
-                            icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                color: Color.fromRGBO(255, 255, 255, 1)),
-                            onPressed: () => Navigator.pop(context),
+                          GestureDetector(
+                            onTap: ()=> Navigator.pop(context),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  icon: const FaIcon(FontAwesomeIcons.chevronLeft,
+                                      color: Color.fromRGBO(255, 255, 255, 1)),
+                                  onPressed: () {},
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 10.0),
+                                  child: Text('Back',
+                                      style: GoogleFonts.inter(
+                                        color: const Color.fromRGBO(255, 255, 255, 1),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FontStyle.italic,
+                                      )),
+                                ),
+                              ],
+                            ),
                           ),
-                          Text('Back',
-                              style: GoogleFonts.inter(
-                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.italic,
-                              )),
                           SizedBox(
-                            width: size.width * 0.63,
+                            width: size.width * 0.60,
                           ),
                           IconButton(
                             icon: const FaIcon(FontAwesomeIcons.gear,

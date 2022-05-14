@@ -54,7 +54,7 @@ class Service {
         await _firestore
             .collection('users')
             .doc(cred.user!.uid)
-            .set(user.toJason());
+            .set(user.toJson());
         res = "Success";
         Navigator.pushNamed(context, '/main');
       }
@@ -90,7 +90,7 @@ class Service {
         await _firestore
             .collection('users')
             .doc(uid)
-            .set(user.toJason());
+            .set(user.toJson());
         res = "Success";
         Navigator.pushNamed(context, '/main');
       }

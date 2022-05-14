@@ -224,24 +224,37 @@ class TriviaQuestionScreen extends HookWidget{
                           child: SafeArea(
                             child: Align(
                                 alignment: Alignment.topLeft,
-                                child: Row(
+                                child: Stack(
                                   children: [
-                                    IconButton(
-                                      icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                          color: Color.fromRGBO(255, 255, 255, 1)),
-                                      onPressed: () => GameManager.endGameEarly(context),
-                                    ),
-                                    Text('Back',
-                                        style: GoogleFonts.inter(
-                                          color: const Color.fromRGBO(255, 255, 255, 1),
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          fontStyle: FontStyle.italic,
-                                        )),
                                     SizedBox(
-                                      width: size.width * 0.63,
+                                      width: size.width,
                                     ),
-                                    getCountdown(context),
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                            icon: const FaIcon(FontAwesomeIcons.chevronLeft,
+                                                color: Color.fromRGBO(255, 255, 255, 1)),
+                                            onPressed: () => GameManager.endGameEarly(context),
+                                          ),
+                                          Text('Back',
+                                              style: GoogleFonts.inter(
+                                                color: const Color.fromRGBO(255, 255, 255, 1),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle: FontStyle.italic,
+                                              )),
+
+
+                                        ],
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.topRight,
+                                      child: getCountdown(context),
+                                    )
+
                                   ],
                                 )),
                           ),
