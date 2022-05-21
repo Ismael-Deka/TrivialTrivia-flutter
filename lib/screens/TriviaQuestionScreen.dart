@@ -9,6 +9,9 @@ import 'package:trivial_trivia/game_utils/GameManager.dart';
 import 'package:trivial_trivia/game_utils/Question.dart';
 import 'package:trivial_trivia/game_utils/TriviaUtils.dart';
 
+import '../widgets/option_button.dart';
+import '../widgets/return_button.dart';
+
 
 class TriviaQuestionScreen extends HookWidget{
 
@@ -65,7 +68,11 @@ class TriviaQuestionScreen extends HookWidget{
           option = nextQuestion.incorrectAnswers[i - offset];
         }
         mOptionsList.add(option);
-        optionStateList[i].value = getOptionButton(option, i,size.height*0.05);
+        optionStateList[i].value = OptionButton(
+            onTap: () => displayCorrectOption(size.height*0.05,i),
+            color: selectedOptionStateList[i],
+            text: option);
+
       }
     }else{
       if(nextQuestion.correctAnswer == "True"){
@@ -75,57 +82,22 @@ class TriviaQuestionScreen extends HookWidget{
       }
       mOptionsList.add("True");
       mOptionsList.add("False");
-      optionStateList[0].value = getOptionButton("True", 0,size.height*0.05);
-      optionStateList[1].value = getOptionButton("False", 1,size.height*0.05);
+      optionStateList[0].value = OptionButton(
+          onTap: () => displayCorrectOption(size.height*0.05,0),
+          color: selectedOptionStateList[0],
+          text: "True");
+
+      optionStateList[1].value = OptionButton(
+          onTap: () => displayCorrectOption(size.height*0.05,1),
+          color: selectedOptionStateList[1],
+          text: "False");
+
       optionStateList[2].value = Column();
       optionStateList[3].value = Column();
 
     }
   }
 
-
-  Column getOptionButton(String option, int index,double sizing){
-    double textSize = 0.0;
-    if(option.length > 40){
-      textSize = 12.0;
-    }else if(option.length > 20){
-      textSize = 15.0;
-    }else{
-      textSize = 18.0;
-    }
-    return Column(children: [
-      SizedBox(
-        height: sizing,
-      ),
-      ElevatedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
-                selectedOptionStateList[index].value),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                )
-            )
-        ),
-        onPressed: () {
-          displayCorrectOption(sizing,index);
-        },
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(50.0, 10.0, 50.0, 10.0),
-          child: Text(
-            option,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: textSize
-            ),
-          ),
-        ),
-
-      ),
-    ],
-    );
-  }
 
 
   void resetOptionColors(){
@@ -140,16 +112,34 @@ class TriviaQuestionScreen extends HookWidget{
       if (index == correctAnswerIndex) {
         GameManager.addPoints(questionDifficulty);
         selectedOptionStateList[index].value = Colors.greenAccent;
-        optionStateList[index].value = getOptionButton(mOptionsList[index], index, sizing);
+
+        optionStateList[index].value = OptionButton(
+            onTap: () => displayCorrectOption(sizing,index),
+            color: selectedOptionStateList[index],
+            text: mOptionsList[index]);
         GameManager.correctAnswerCount++;
       } else if(index == -1){
         selectedOptionStateList[correctAnswerIndex].value = Colors.greenAccent;
-        optionStateList[correctAnswerIndex].value = getOptionButton(mOptionsList[correctAnswerIndex], correctAnswerIndex, sizing);
+
+        optionStateList[correctAnswerIndex].value = OptionButton(
+            onTap: () => displayCorrectOption(sizing,correctAnswerIndex),
+            color: selectedOptionStateList[correctAnswerIndex],
+            text: mOptionsList[correctAnswerIndex]);
+
       }else {
         selectedOptionStateList[index].value = Colors.redAccent[100];
         selectedOptionStateList[correctAnswerIndex].value = Colors.greenAccent;
-        optionStateList[index].value = getOptionButton(mOptionsList[index], index, sizing);
-        optionStateList[correctAnswerIndex].value = getOptionButton(mOptionsList[correctAnswerIndex], correctAnswerIndex, sizing);
+
+        optionStateList[index].value = OptionButton(
+            onTap: () => displayCorrectOption(sizing,index),
+            color: selectedOptionStateList[index],
+            text: mOptionsList[index]);
+
+        optionStateList[correctAnswerIndex].value = OptionButton(
+            onTap: () => displayCorrectOption(sizing,correctAnswerIndex),
+            color: selectedOptionStateList[correctAnswerIndex],
+            text: mOptionsList[correctAnswerIndex]);
+
       }
       isOptionSelected = true;
     }
@@ -231,24 +221,7 @@ class TriviaQuestionScreen extends HookWidget{
                                     ),
                                     Align(
                                       alignment: Alignment.topLeft,
-                                      child: Row(
-                                        children: [
-                                          IconButton(
-                                            icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                                color: Color.fromRGBO(255, 255, 255, 1)),
-                                            onPressed: () => GameManager.endGameEarly(context),
-                                          ),
-                                          Text('Back',
-                                              style: GoogleFonts.inter(
-                                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w600,
-                                                fontStyle: FontStyle.italic,
-                                              )),
-
-
-                                        ],
-                                      ),
+                                      child: ReturnButton(onTap: () => GameManager.endGameEarly(context),),
                                     ),
                                     Align(
                                       alignment: Alignment.topRight,

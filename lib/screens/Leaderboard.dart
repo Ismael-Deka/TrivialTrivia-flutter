@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -6,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trivial_trivia/services/auth.dart';
+
+import '../widgets/return_button.dart';
 
 class Leaderboard extends HookWidget {
 
@@ -51,23 +52,7 @@ class Leaderboard extends HookWidget {
                   child: SafeArea(
                     child: Align(
                         alignment: Alignment.topLeft,
-                        child: Row(
-
-                          children: [
-                            IconButton(
-                              icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                  color: Color.fromRGBO(255, 255, 255, 1)),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                            Text('Back',
-                                style: GoogleFonts.inter(
-                                  color: const Color.fromRGBO(255, 255, 255, 1),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FontStyle.italic,
-                                ))
-                          ],
-                        )),
+                        child: ReturnButton(onTap: ()=>Navigator.pop(context),)),
                   ),
                 ),
                 Stack(

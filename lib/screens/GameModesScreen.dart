@@ -9,6 +9,8 @@ import 'package:trivial_trivia/services/auth.dart';
 import '../game_utils/GameManager.dart';
 import 'package:trivial_trivia/models/user.dart' as model;
 
+import '../widgets/return_button.dart';
+
 class GameModesScreen extends StatefulWidget {
   const GameModesScreen({Key? key}) : super(key: key);
 
@@ -70,36 +72,15 @@ class _GameModesScreenState extends State<GameModesScreen> {
                       alignment: Alignment.topLeft,
                       child: Row(
                         children: [
-                          GestureDetector(
-                            onTap:() {
-                              if(!isUserLoggedIn) {
-                                Navigator.pop(context);
-                              }else{
-                                setState(() {
-                                  isLogoutDialogOpen = true;
-                                });
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                IconButton(
-                                    icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                        color: Color.fromRGBO(255, 255, 255, 1)),
-                                    onPressed: () {}
-                                ),
-                                Text('Back',
-                                    style: GoogleFonts.inter(
-                                      color: const Color.fromRGBO(255, 255, 255, 1),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      fontStyle: FontStyle.italic,
-                                    )),
-                                SizedBox(
-                                  width: 20.0,
-                                )
-                              ],
-                            ),
-                          ),
+                          ReturnButton(onTap: () {
+                            if(!isUserLoggedIn) {
+                              Navigator.pop(context);
+                            }else{
+                              setState(() {
+                                isLogoutDialogOpen = true;
+                              });
+                            }
+                          }),
                           SizedBox(
                             width: size.width * 0.45,
                           ),

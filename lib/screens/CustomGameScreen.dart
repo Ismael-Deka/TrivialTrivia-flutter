@@ -9,12 +9,15 @@ import 'package:trivial_trivia/game_utils/GameMode.dart';
 import 'package:trivial_trivia/game_utils/TriviaUtils.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 
+import '../widgets/return_button.dart';
+
 
 class CustomGame extends HookWidget {
 
   late List<ValueNotifier> selectedDifficultyStateList;
   late ValueNotifier isTimeLimitSelected;
   late ValueNotifier numQuestions;
+  late ValueNotifier timeLimitButtonColor;
 
 
   int minutes = 2;
@@ -26,11 +29,27 @@ class CustomGame extends HookWidget {
 
   CustomGame({Key? key}) : super(key: key);
 
-  void selectDifficulty(int index){
-    selectedDifficultyIndex = index;
+  void reset(){
+    minutes = 2;
+    seconds = 0;
+
+    isTimeLimitSelected.value = false;
+    selectedCategory = TriviaUtils.mCategoryList[0];
+    timeLimitButtonColor.value = const Color.fromRGBO(248, 239, 239, 1);
+    resetDifficulty();
+    numQuestions.value = 15;
+    selectedDifficultyIndex = -1;
+  }
+
+  void resetDifficulty(){
     for(int i = 0; i < 3; i++){
       selectedDifficultyStateList[i].value = const Color.fromRGBO(248, 239, 239, 1);
     }
+  }
+
+  void selectDifficulty(int index){
+    selectedDifficultyIndex = index;
+    resetDifficulty();
     selectedDifficultyStateList[index].value = Colors.grey;
   }
 
@@ -70,7 +89,7 @@ class CustomGame extends HookWidget {
     isTimeLimitSelected = useState(false);
     numQuestions = useState(15);
 
-    final timeLimitButtonColor = useState(const Color.fromRGBO(248, 239, 239, 1));
+    timeLimitButtonColor = useState(const Color.fromRGBO(248, 239, 239, 1));
 
 
     return Scaffold(
@@ -88,22 +107,8 @@ class CustomGame extends HookWidget {
                 child: SafeArea(
                   child: Align(
                       alignment: Alignment.topLeft,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                color: Color.fromRGBO(255, 255, 255, 1)),
-                            onPressed: () =>
-                                Navigator.pushNamed(context, '/main'),
-                          ),
-                          Text('Back',
-                              style: GoogleFonts.inter(
-                                color: const Color.fromRGBO(255, 255, 255, 1),
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FontStyle.italic,
-                              )),
-                        ],
+                      child: ReturnButton(
+                        onTap: () => Navigator.pop(context),
                       )),
                 ),
               ),
@@ -383,17 +388,20 @@ class CustomGame extends HookWidget {
                                     ),
                                   ),
                                   const SizedBox(width: 20),
-                                  Container(
-                                      width: 97,
-                                      height: 86,
-                                      decoration: BoxDecoration(
-                                          image: const DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/Close_SM.png')),
-                                          borderRadius:
-                                          BorderRadius.circular(20),
-                                          color: const Color.fromRGBO(
-                                              248, 239, 239, 1)))
+                                  GestureDetector(
+                                    onTap: () => reset(),
+                                    child: Container(
+                                        width: 97,
+                                        height: 86,
+                                        decoration: BoxDecoration(
+                                            image: const DecorationImage(
+                                                image: AssetImage(
+                                                    'assets/Close_SM.png')),
+                                            borderRadius:
+                                            BorderRadius.circular(20),
+                                            color: const Color.fromRGBO(
+                                                248, 239, 239, 1))),
+                                  )
                                 ])),
                             Padding(
                               padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
