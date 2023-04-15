@@ -16,5 +16,5 @@ Trivial Trivia is a Flutter app that tests your knowledge across a wide range of
 # Contributing
 Contributions to Trivial Trivia are welcome and encouraged! If you have an idea for a new feature, find a bug, or want to help with development, please feel free to open an issue or submit a pull request.
 
-License
+# License
 Trivial Trivia is licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for more information.
