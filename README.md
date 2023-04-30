@@ -12,6 +12,15 @@ Trivial Trivia is a Flutter app that tests your knowledge across a wide range of
 - Register for an account or recover a forgotten password.
 - Follow other users and view their profiles through the app.
 
+# Screenshots
+<div>
+<img src="https://i.imgur.com/15ZSY6Y.png" width="213" height="450">
+<img src="https://i.imgur.com/qxMgJ4P.png" width="213" height="450">
+<img src="https://i.imgur.com/b4NmTQM.png" width="213" height="450">
+<img src="https://i.imgur.com/0Ajrm2U.png" width="213" height="450">
+<img src="https://i.imgur.com/sCvV6h1.png" width="213" height="450">
+<img src="https://i.imgur.com/TpwLOtH.png" width="213" height="450">
+</div>
 
 # Contributing
 Contributions to Trivial Trivia are welcome and encouraged! If you have an idea for a new feature, find a bug, or want to help with development, please feel free to open an issue or submit a pull request.
