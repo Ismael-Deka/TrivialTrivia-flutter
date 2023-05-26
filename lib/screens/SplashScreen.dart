@@ -13,10 +13,10 @@ class SplashScreen extends StatelessWidget {
         () => {
           if(Service.isUserLoggedIn()){
             Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => GameModesScreen()))
+        MaterialPageRoute(builder: (context) => const GameModesScreen()))
         }else{
             Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => StartingScreen()))
+            MaterialPageRoute(builder: (context) => const StartingScreen()))
           }
         });
   }
@@ -36,7 +36,7 @@ class SplashScreen extends StatelessWidget {
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Image(
               image: AssetImage("assets/Group 1201.png"),
               fit: BoxFit.cover,

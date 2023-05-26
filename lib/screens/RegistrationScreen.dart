@@ -4,8 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:trivial_trivia/screens/SignInScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trivial_trivia/services/auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:trivial_trivia/services/utils.dart';
@@ -278,18 +276,6 @@ class _RegisterState extends State<Register> {
                                                   const Alignment(0, 0.80),
                                               child: GestureDetector(
                                                 onTap: () async {
-                                                  String res = await Service()
-                                                      .registerWithEmailAndPassword(
-                                                          context,
-                                                          email: emailController
-                                                              .text,
-                                                          username:
-                                                              usernameController
-                                                                  .text,
-                                                          password:
-                                                              passwordController
-                                                                  .text,
-                                                          file: _image!);
                                                 },
                                                 child: Container(
                                                     width: 140,

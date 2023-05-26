@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:trivial_trivia/services/auth.dart';
 
 class StartingScreen extends StatelessWidget {
   const StartingScreen({Key? key}) : super(key: key);
@@ -60,12 +59,12 @@ class StartingScreen extends StatelessWidget {
                                     height: 39,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
+                                      color: const Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
                                     ),
                                     child: Center(
                                       child: Text('Continue as guest',
                                           style: GoogleFonts.inter(
-                                              color: Color.fromRGBO(255, 255, 255, 1),
+                                              color: const Color.fromRGBO(255, 255, 255, 1),
                                               fontSize: 10,
                                               fontWeight: FontWeight.w700)),
                                     )),
@@ -80,12 +79,12 @@ class StartingScreen extends StatelessWidget {
                                     height: 39,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
+                                      color: const Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
                                     ),
                                     child: Center(
                                       child: Text('Sign In',
                                           style: GoogleFonts.inter(
-                                              color: Color.fromRGBO(255, 255, 255, 1),
+                                              color: const Color.fromRGBO(255, 255, 255, 1),
                                               fontSize: 10,
                                               fontWeight: FontWeight.w700)),
                                     )),
@@ -100,12 +99,12 @@ class StartingScreen extends StatelessWidget {
                                     height: 39,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(30),
-                                      color: Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
+                                      color: const Color.fromRGBO(72, 194, 242, 1).withOpacity(.80),
                                     ),
                                     child: Center(
                                       child: Text('Create an account',
                                           style: GoogleFonts.inter(
-                                              color: Color.fromRGBO(255, 255, 255, 1),
+                                              color: const Color.fromRGBO(255, 255, 255, 1),
                                               fontSize: 10,
                                               fontWeight: FontWeight.w700)),
                                     )),

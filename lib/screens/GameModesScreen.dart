@@ -1,5 +1,4 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trivial_trivia/game_utils/TriviaUtils.dart';
@@ -46,7 +45,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
       onWillPop: ()async {
         if(!Service.isUserLoggedIn()) {
           Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => StartingScreen()));
+              MaterialPageRoute(builder: (context) => const StartingScreen()));
         }else{
           setState(() {
             isLogoutDialogOpen = true;
@@ -152,8 +151,8 @@ class _GameModesScreenState extends State<GameModesScreen> {
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
                                   const Color(0xFFA2E3FF).withOpacity(0.80),
-                                  Color(0xFFA2E3FF).withOpacity(0.55),
-                                  Color(0xFFA2E3FF).withOpacity(0.28)
+                                  const Color(0xFFA2E3FF).withOpacity(0.55),
+                                  const Color(0xFFA2E3FF).withOpacity(0.28)
                                   //add more colors
                                 ]),
                                 borderRadius: BorderRadius.circular(18.0),
@@ -182,7 +181,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(size.width*0.5, size.height*0.05, size.width*0.5, size.height*0.05),
                                   ),
-                                  Align(
+                                  const Align(
                                     alignment: Alignment.center,
                                     heightFactor: 3,
                                     child: Text(
@@ -203,9 +202,9 @@ class _GameModesScreenState extends State<GameModesScreen> {
                             DecoratedBox(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(colors: [
-                                      Color(0xFFA2E3FF).withOpacity(0.80),
-                                      Color(0xFFA2E3FF).withOpacity(0.55),
-                                      Color(0xFFA2E3FF).withOpacity(0.28)
+                                      const Color(0xFFA2E3FF).withOpacity(0.80),
+                                      const Color(0xFFA2E3FF).withOpacity(0.55),
+                                      const Color(0xFFA2E3FF).withOpacity(0.28)
                                       //add more colors
                                     ]),
                                     borderRadius: BorderRadius.circular(18.0),
@@ -252,13 +251,13 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                     ),
                                   ),
                                 )),
-                            Spacer(),
+                            const Spacer(),
                             DecoratedBox(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(colors: [
-                                      Color(0xFFA2E3FF).withOpacity(0.80),
-                                      Color(0xFFA2E3FF).withOpacity(0.55),
-                                      Color(0xFFA2E3FF).withOpacity(0.28)
+                                      const Color(0xFFA2E3FF).withOpacity(0.80),
+                                      const Color(0xFFA2E3FF).withOpacity(0.55),
+                                      const Color(0xFFA2E3FF).withOpacity(0.28)
                                       //add more colors
                                     ]),
                                     borderRadius: BorderRadius.circular(18.0),
@@ -286,7 +285,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                       context,false),
                                   child: Padding(
                                     padding:
-                                    EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
+                                    const EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
                                     child: Column(
                                       children: const [
                                         Text(
@@ -321,9 +320,9 @@ class _GameModesScreenState extends State<GameModesScreen> {
                             DecoratedBox(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(colors: [
-                                      Color(0xFFA2E3FF).withOpacity(0.80),
-                                      Color(0xFFA2E3FF).withOpacity(0.55),
-                                      Color(0xFFA2E3FF).withOpacity(0.28)
+                                      const Color(0xFFA2E3FF).withOpacity(0.80),
+                                      const Color(0xFFA2E3FF).withOpacity(0.55),
+                                      const Color(0xFFA2E3FF).withOpacity(0.28)
                                       //add more colors
                                     ]),
                                     borderRadius: BorderRadius.circular(18.0),
@@ -351,7 +350,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                       context,false),
                                   child: Padding(
                                     padding:
-                                    EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
+                                    const EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
                                     child: Column(
                                       children: const [
                                         Text(
@@ -370,13 +369,13 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                     ),
                                   ),
                                 )),
-                            Spacer(),
+                            const Spacer(),
                             DecoratedBox(
                                 decoration: BoxDecoration(
                                     gradient: LinearGradient(colors: [
-                                      Color(0xFFA2E3FF).withOpacity(0.80),
-                                      Color(0xFFA2E3FF).withOpacity(0.55),
-                                      Color(0xFFA2E3FF).withOpacity(0.28)
+                                      const Color(0xFFA2E3FF).withOpacity(0.80),
+                                      const Color(0xFFA2E3FF).withOpacity(0.55),
+                                      const Color(0xFFA2E3FF).withOpacity(0.28)
                                       //add more colors
                                     ]),
                                     borderRadius: BorderRadius.circular(18.0),
@@ -404,7 +403,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                       context,false),
                                   child: Padding(
                                     padding:
-                                    EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
+                                    const EdgeInsets.fromLTRB(20.0, 35.0, 20.0, 35.0),
                                     child: Column(
                                       children: const [
                                         Text(
@@ -425,13 +424,13 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                 )),
                           ],
                         ),
-                        SizedBox(height: 40.0),
+                        const SizedBox(height: 40.0),
                         DecoratedBox(
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
-                                  Color(0xFFA2E3FF).withOpacity(0.80),
-                                  Color(0xFFA2E3FF).withOpacity(0.55),
-                                  Color(0xFFA2E3FF).withOpacity(0.28)
+                                  const Color(0xFFA2E3FF).withOpacity(0.80),
+                                  const Color(0xFFA2E3FF).withOpacity(0.55),
+                                  const Color(0xFFA2E3FF).withOpacity(0.28)
                                   //add more colors
                                 ]),
                                 borderRadius: BorderRadius.circular(18.0),
@@ -458,7 +457,7 @@ class _GameModesScreenState extends State<GameModesScreen> {
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(size.width*0.5, 15.0, size.width*0.5, 15.0),
                                   ),
-                                  Align(
+                                  const Align(
                                     alignment: Alignment.center,
                                     heightFactor: 3,
                                     child: Text(

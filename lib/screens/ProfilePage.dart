@@ -112,24 +112,26 @@ class _ProfileState extends State<Profile> {
                         children: [
                           GestureDetector(
                             onTap: ()=> Navigator.pop(context),
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  icon: const FaIcon(FontAwesomeIcons.chevronLeft,
-                                      color: Color.fromRGBO(255, 255, 255, 1)),
-                                  onPressed: () {},
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 10.0),
-                                  child: Text('Back',
-                                      style: GoogleFonts.inter(
-                                        color: const Color.fromRGBO(255, 255, 255, 1),
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600,
-                                        fontStyle: FontStyle.italic,
-                                      )),
-                                ),
-                              ],
+                            child: AbsorbPointer(
+                              child: Row(
+                                children: [
+                                  IconButton(
+                                    icon: const FaIcon(FontAwesomeIcons.chevronLeft,
+                                        color: Color.fromRGBO(255, 255, 255, 1)),
+                                    onPressed: () {},
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 10.0),
+                                    child: Text('Back',
+                                        style: GoogleFonts.inter(
+                                          color: const Color.fromRGBO(255, 255, 255, 1),
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle: FontStyle.italic,
+                                        )),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(

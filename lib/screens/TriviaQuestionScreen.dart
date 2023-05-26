@@ -1,7 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:timer_count_down/timer_count_down.dart';
@@ -13,6 +10,7 @@ import '../widgets/option_button.dart';
 import '../widgets/return_button.dart';
 
 
+// ignore: must_be_immutable
 class TriviaQuestionScreen extends HookWidget{
 
   late List<String> mOptionsList;
@@ -152,7 +150,7 @@ class TriviaQuestionScreen extends HookWidget{
       build: (BuildContext context, double time) {
         GameManager.timeRemaining = time;
         return Text(
-          (time / 60).toInt().toString().padLeft(2, '0') +
+            (time ~/ 60).toString().padLeft(2, '0') +
               ":" +
               (time.toInt() % 60).toString().padLeft(2, '0'),
           style: const TextStyle(
@@ -164,7 +162,7 @@ class TriviaQuestionScreen extends HookWidget{
         );
 
       },
-      interval: Duration(milliseconds: 100),
+      interval: const Duration(milliseconds: 100),
         onFinished: ()=>GameManager.endGame(context),
 
     );
@@ -256,11 +254,11 @@ class TriviaQuestionScreen extends HookWidget{
                                   height: 10.0,
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
+                                  padding: const EdgeInsets.fromLTRB(50.0, 0.0, 50.0, 0.0),
                                   child: Container(
-                                    margin: EdgeInsets.symmetric(vertical: 20),
+                                    margin: const EdgeInsets.symmetric(vertical: 20),
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                                       child: LinearProgressIndicator(
                                         value: remainingQuestionCount.value,
                                         minHeight: 15.0,
@@ -287,7 +285,7 @@ class TriviaQuestionScreen extends HookWidget{
                                 ),
                                 ElevatedButton(
                                   style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF86C9E7)),
+                                      backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF86C9E7)),
                                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                           RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(18.0),

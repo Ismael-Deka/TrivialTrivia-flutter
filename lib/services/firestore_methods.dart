@@ -6,7 +6,6 @@ class FireStoreMethods{
     String uid,
     String followId,
   ) async{
-    try{
       DocumentSnapshot snap = await _firestore.collection('users').doc(uid).get();
       List following = (snap.data()! as dynamic)['following'];
 
@@ -27,9 +26,7 @@ class FireStoreMethods{
           'following' : FieldValue.arrayUnion([followId])
         });
       }
-    }catch(e){
-      print(e.toString());
-    }
+
    
   }
   

@@ -1,8 +1,8 @@
 import 'dart:typed_data';
+import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:trivial_trivia/providers/user_provider.dart';
@@ -20,7 +20,6 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final TextEditingController usernameController = TextEditingController();
   Service service = Service();
-  bool _isLoading = false;
   Uint8List? _image;
 
   
@@ -34,7 +33,6 @@ class _EditProfileState extends State<EditProfile> {
 
   void updateUserProfile() async {
     setState(() {
-      _isLoading = true;
     });
     String res = await Service()
         .updateUserProfile(context, username: usernameController.text, profilePic: _image);
@@ -43,7 +41,6 @@ class _EditProfileState extends State<EditProfile> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(res)));
     }
     setState(() {
-      _isLoading = false;
     });
   }
 
@@ -51,7 +48,6 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     Size size = mediaQueryData.size;
-    var bottomPadding = mediaQueryData.padding.bottom;
     model.User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
         body: Container(
@@ -64,7 +60,7 @@ class _EditProfileState extends State<EditProfile> {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10, top: 10),
             child: SafeArea(
               child: Align(
                   alignment: Alignment.topLeft,
@@ -88,48 +84,53 @@ class _EditProfileState extends State<EditProfile> {
         Padding(
           padding: const EdgeInsets.only(top: 100),
           child: Container(
-                                          width: size.width,
-                                          height: size.height * 0.20,
-                                          color: Colors.transparent,
-                                          child: Center(
-                                            child: Container(
-                                                width: 90,
-                                                height: 90,
-                                                decoration: const BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Color.fromRGBO(
-                                                      162, 227, 255, 1),
-                                                ),
-                                                child: Center(
-                                                    child: _image != null
-                                                        ? CircleAvatar(
-                                                            radius: 38,
-                                                            backgroundImage:
-                                                                MemoryImage(
-                                                                    _image!),
-                                                          )
-                                                        : CircleAvatar(
-                                                            radius: 38,
-                                                            backgroundImage:
-                                                                NetworkImage(user.photoURL),
-                                                          )
-                                                    )),
-                                          ),
-                                        ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 130, top: 250),
-          child: GestureDetector(
-            onTap: selectImage,
-            child: Text('Change profile picture',style: GoogleFonts.inter(
-                                  color: const Color.fromRGBO(255, 255, 255, 1),
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ) ),
+            width: size.width,
+            height: size.height * 0.20,
+            color: Colors.transparent,
+            child: Center(
+              child: GestureDetector(
+                onTap: selectImage,
+                child: AbsorbPointer(
+                  child: Container(
+                      width: 90,
+                      height: 90,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color.fromRGBO(
+                            162, 227, 255, 1),
+                      ),
+                      child: Center(
+                          child: _image != null
+                              ? CircleAvatar(
+                            radius: 38,
+                            backgroundImage:
+                            MemoryImage(
+                                _image!),
+                          )
+                              : CircleAvatar(
+                            radius: 38,
+                            backgroundImage:
+                            NetworkImage(user.photoURL),
+                          )
+                      )),
+                )
+              ),
+            ),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.only(left: 100, top: 250),
+          child: Text('Change profile picture',
+              style: GoogleFonts.inter(
+                color: const Color.fromRGBO(255, 255, 255, 1),
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+              )
+          ),
+
+        ),
           Padding(
-            padding: const EdgeInsets.only(left: 80, top: 300),
+            padding: const EdgeInsets.only(left: 65, top: 300),
             child: Column(
               children: [
                 Padding(
@@ -147,7 +148,11 @@ class _EditProfileState extends State<EditProfile> {
                     height: 40,
                     width: 250,
                     child: TextField(
+
                       controller: usernameController,
+                      style: const TextStyle(
+                        color: Colors.white
+                      ),
                       decoration: InputDecoration(
                           contentPadding:
                               const EdgeInsets.only(left: 15, right: 15),
@@ -171,7 +176,7 @@ class _EditProfileState extends State<EditProfile> {
                       height: 30,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
-                          color: Color.fromRGBO(116, 180, 213, 1)),
+                          color: const Color.fromRGBO(116, 180, 213, 1)),
                       child: Center(
                         child: Text('Done',
                             style: GoogleFonts.inter(

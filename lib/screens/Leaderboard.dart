@@ -1,13 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:trivial_trivia/services/auth.dart';
 
 import '../widgets/return_button.dart';
 
+// ignore: must_be_immutable
 class Leaderboard extends HookWidget {
 
   List<List<String>> playerLeaderboard = List.empty(growable: true);

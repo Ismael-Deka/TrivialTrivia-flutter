@@ -1,8 +1,5 @@
-//import 'dart:html';
 import 'dart:typed_data';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,8 +31,7 @@ class Service {
     try {
       if (username.isNotEmpty ||
           email.isNotEmpty ||
-          password.isNotEmpty ||
-          file != null) {
+          password.isNotEmpty ) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 

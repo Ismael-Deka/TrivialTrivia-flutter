@@ -13,28 +13,30 @@ class ReturnButton extends StatelessWidget{
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap:() => onTap(),
-      child: Row(
-        children: [
-          Icon(
-            FontAwesomeIcons.chevronLeft,
-            color: Colors.white,
+      child: AbsorbPointer(
+        child:Row(
+          children: [
+            const Icon(
+              FontAwesomeIcons.chevronLeft,
+              color: Colors.white,
 
-          ),
-          const SizedBox(
-            height: 30.0,
-            width: 10.0,
-          ),
-          Text('Back',
-              style: GoogleFonts.inter(
-                color: const Color.fromRGBO(255, 255, 255, 1),
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                fontStyle: FontStyle.italic,
-              )),
-          const SizedBox(
-            width: 20.0,
-          )
-        ],
+            ),
+            const SizedBox(
+              height: 30.0,
+              width: 10.0,
+            ),
+            Text('Back',
+                style: GoogleFonts.inter(
+                  color: const Color.fromRGBO(255, 255, 255, 1),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.italic,
+                )),
+            const SizedBox(
+              width: 20.0,
+            )
+          ],
+        )
       ),
     );
   }

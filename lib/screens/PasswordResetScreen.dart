@@ -15,7 +15,6 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
-    Size size = mediaQueryData.size;
     var bottomPadding = mediaQueryData.padding.bottom;
 
     return Scaffold(
@@ -152,14 +151,10 @@ class _ResetPasswordState extends State<ResetPassword> {
   }
 
   Future resetPassword() async {
-    try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text.trim());
       const snackBar = SnackBar(
         content: Text('Password reset email has been sent!'),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } catch (e) {
-      print(e);
-    }
   }
 }
