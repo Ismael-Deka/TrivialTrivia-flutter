@@ -60,7 +60,7 @@ class _EditProfileState extends State<EditProfile> {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 10, top: 10),
+            padding: EdgeInsets.only(left: (size.width*0.02), top: (size.height*0.01)),
             child: SafeArea(
               child: Align(
                   alignment: Alignment.topLeft,
@@ -82,7 +82,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
         Padding(
-          padding: const EdgeInsets.only(top: 100),
+          padding: EdgeInsets.only(top: (size.height*0.15)),
           child: Container(
             width: size.width,
             height: size.height * 0.20,
@@ -119,7 +119,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 100, top: 250),
+          padding: EdgeInsets.only(left: (size.width*0.27), top: (size.height*0.32)),
           child: Text('Change profile picture',
               style: GoogleFonts.inter(
                 color: const Color.fromRGBO(255, 255, 255, 1),
@@ -130,11 +130,11 @@ class _EditProfileState extends State<EditProfile> {
 
         ),
           Padding(
-            padding: const EdgeInsets.only(left: 65, top: 300),
+            padding: EdgeInsets.only(left: (size.width*0.18), top: (size.height*0.39)),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
+                  padding: EdgeInsets.only(bottom: (size.height*0.02)),
                   child: Text('Edit username:', 
                   style: GoogleFonts.inter(
                               color: const Color.fromRGBO(255, 255, 255, 1),
@@ -143,7 +143,7 @@ class _EditProfileState extends State<EditProfile> {
                             )),
                 ), 
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 50),
+                  padding: EdgeInsets.only(bottom: (size.height*0.05)),
                   child: SizedBox(
                     height: 40,
                     width: 250,
@@ -155,7 +155,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       decoration: InputDecoration(
                           contentPadding:
-                              const EdgeInsets.only(left: 15, right: 15),
+                              EdgeInsets.only(left: (size.width*0.03), right: (size.width*0.03)),
                           border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(30),
